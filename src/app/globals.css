@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@fontsource/press-start-2p";
+@import "@fontsource/vt323";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -47,9 +49,6 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
-
-@import "@fontsource/press-start-2p";
-@import "@fontsource/vt323";
 
 :root {
   --background: oklch(0.145 0 0);
