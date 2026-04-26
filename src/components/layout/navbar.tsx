@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -13,6 +13,38 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks.map((link) => link.href.slice(1));
+      
+      for (const section of sections.reverse()) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 150) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false);
+  };
 
   return (
     <motion.nav
@@ -20,24 +52,40 @@ export default function Navbar() {
       animate={{ y: 0 }}
       className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b-4 border-green-500"
     >
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-1 bg-green-500 origin-left"
+        style={{ scaleX }}
+      />
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <motion.div
+          <motion.a
+            href="#home"
+            onClick={(e) => handleNavClick(e, "#home")}
             whileHover={{ scale: 1.05 }}
             className="font-['Press_Start_2P'] text-sm text-green-400 cursor-pointer"
           >
             CAHYA
-          </motion.div>
+          </motion.a>
 
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => (
               <motion.a
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
                 whileHover={{ scale: 1.1 }}
-                className="font-['VT323'] text-xl text-gray-300 hover:text-green-400 transition-colors"
+                className="font-['VT323'] text-xl transition-colors relative"
               >
-                {link.name}
+                <span className={activeSection === link.href.slice(1) ? "text-green-400" : "text-gray-300 hover:text-green-400"}>
+                  {link.name}
+                </span>
+                {activeSection === link.href.slice(1) && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"
+                  />
+                )}
               </motion.a>
             ))}
           </div>
@@ -62,8 +110,12 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setIsOpen(false)}
-                className="block font-['VT323'] text-xl text-gray-300 hover:text-green-400"
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`block font-['VT323'] text-xl transition-colors ${
+                  activeSection === link.href.slice(1)
+                    ? "text-green-400"
+                    : "text-gray-300 hover:text-green-400"
+                }`}
               >
                 {link.name}
               </a>
