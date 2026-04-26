@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { FolderGit2, ExternalLink, Github, ArrowRight } from "lucide-react";
+import { FolderGit2, ExternalLink, Code2, ArrowRight } from "lucide-react";
 
 const projects = [
   {
@@ -101,7 +101,7 @@ export default function Projects() {
                     href={project.github}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-green-600/20 hover:bg-green-600/40 border border-green-500/30 rounded-lg font-['VT323'] text-sm text-green-400 transition-colors"
                   >
-                    <Github size={16} />
+                    <Code2 size={16} />
                     Code
                   </a>
                   <a
