@@ -1,4 +1,6 @@
 import { Code2, Mail, X } from "lucide-react";
+import { getFooterColors } from "@/lib/get-theme-colors";
+import { rpgColors } from "@/lib/theme-constants";
 
 const socialLinks = [
   { icon: Code2, href: "https://github.com/CahyaAgong", label: "GitHub" },
@@ -6,12 +8,30 @@ const socialLinks = [
   { icon: X, href: "#", label: "Twitter" },
 ];
 
-export default function Footer() {
+interface FooterProps {
+  isProfessional?: boolean;
+}
+
+export default function Footer({ isProfessional = false }: FooterProps) {
+  const colors = getFooterColors(isProfessional ? 'professional' : 'rpg');
+
   return (
-    <footer className="bg-black border-t-4 border-green-500 py-8">
+    <footer 
+      className="py-8 border-t-2 transition-colors duration-300"
+      style={{ 
+        backgroundColor: colors.background,
+        borderColor: colors.border,
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="font-['VT323'] text-xl text-gray-400">
+          <div 
+            className="text-sm"
+            style={{ 
+              fontFamily: isProfessional ? "var(--font-inter), system-ui, sans-serif" : "'VT323', monospace",
+              color: colors.text,
+            }}
+          >
             © 2024 CahyaAgong. All rights reserved.
           </div>
 
@@ -22,25 +42,32 @@ export default function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-green-900/50 rounded hover:bg-green-600 transition-colors"
+                className="p-2 rounded transition-colors"
+                style={{ 
+                  backgroundColor: colors.iconBg,
+                  color: colors.icon,
+                }}
               >
-                <social.icon size={20} className="text-green-400" />
+                <social.icon size={20} />
               </a>
             ))}
           </div>
         </div>
 
-        <div className="mt-4 flex justify-center gap-2">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="w-3 h-3 bg-green-500"
-              style={{
-                boxShadow: "0 0 8px #22c55e",
-              }}
-            />
-          ))}
-        </div>
+        {!isProfessional && (
+          <div className="mt-4 flex justify-center gap-2">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="w-3 h-3 rounded-full"
+                style={{
+                  backgroundColor: rpgColors.primary,
+                  boxShadow: `0 0 8px ${rpgColors.primary}`,
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </footer>
   );

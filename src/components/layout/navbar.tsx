@@ -3,6 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "../theme-toggle";
+import { useTheme } from "../theme-provider";
+import { getNavbarColors } from "@/lib/get-theme-colors";
+import { professionalColors, rpgColors } from "@/lib/theme-constants";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -16,6 +20,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const { mode } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,15 +51,27 @@ export default function Navbar() {
     setIsOpen(false);
   };
 
+  const isProfessional = mode === "professional";
+  const colors = getNavbarColors(mode);
+  const linkColor = colors.link;
+  const textColors = isProfessional ? professionalColors : rpgColors;
+
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b-4 border-green-500"
+      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b-4 transition-colors duration-300"
+      style={{ 
+        backgroundColor: colors.background,
+        borderColor: colors.border,
+      }}
     >
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-1 bg-green-500 origin-left"
-        style={{ scaleX }}
+        className="absolute bottom-0 left-0 right-0 h-1 origin-left transition-colors duration-300"
+        style={{ 
+          scaleX,
+          backgroundColor: linkColor,
+        }}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,9 +80,13 @@ export default function Navbar() {
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
             whileHover={{ scale: 1.05 }}
-            className="font-['Press_Start_2P'] text-sm text-green-400 cursor-pointer"
+            className="font-bold text-lg cursor-pointer transition-colors"
+            style={{ 
+              fontFamily: isProfessional ? "var(--font-playfair)" : "'Press Start 2P', cursive",
+              color: linkColor,
+            }}
           >
-            CAHYA
+            {isProfessional ? "CA" : "CAHYA"}
           </motion.a>
 
           <div className="hidden md:flex items-center space-x-8">
@@ -75,27 +96,41 @@ export default function Navbar() {
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 whileHover={{ scale: 1.1 }}
-                className="font-['VT323'] text-xl transition-colors relative"
+                className="text-sm transition-colors relative"
+                style={{ 
+                  fontFamily: isProfessional ? "var(--font-inter)" : "'VT323', monospace",
+                }}
               >
-                <span className={activeSection === link.href.slice(1) ? "text-green-400" : "text-gray-300 hover:text-green-400"}>
+                <span style={{ 
+                  color: activeSection === link.href.slice(1) 
+                    ? linkColor 
+                    : colors.textMuted,
+                }}>
                   {link.name}
                 </span>
                 {activeSection === link.href.slice(1) && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-green-400"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5"
+                    style={{ backgroundColor: linkColor }}
                   />
                 )}
               </motion.a>
             ))}
+            
+            <ThemeToggle />
           </div>
 
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-300 hover:text-green-400"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-3 md:hidden">
+            <ThemeToggle />
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              style={{ color: linkColor }}
+              className="hover:opacity-80"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -103,7 +138,11 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
-          className="md:hidden bg-black/95 border-b-4 border-green-500"
+          className="md:hidden border-t-2 transition-colors duration-300"
+          style={{ 
+            backgroundColor: colors.background,
+            borderColor: colors.border,
+          }}
         >
           <div className="px-4 py-4 space-y-4">
             {navLinks.map((link) => (
@@ -111,11 +150,13 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`block font-['VT323'] text-xl transition-colors ${
-                  activeSection === link.href.slice(1)
-                    ? "text-green-400"
-                    : "text-gray-300 hover:text-green-400"
-                }`}
+                className="block text-base transition-colors"
+                style={{ 
+                  fontFamily: isProfessional ? "var(--font-inter)" : "'VT323', monospace",
+                  color: activeSection === link.href.slice(1) 
+                    ? linkColor 
+                    : colors.textMuted,
+                }}
               >
                 {link.name}
               </a>
