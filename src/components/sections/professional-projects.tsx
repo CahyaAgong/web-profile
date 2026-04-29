@@ -3,7 +3,14 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { FolderGit2, ExternalLink, Code2, ArrowRight } from "lucide-react";
-import { getThemeColors } from "@/lib/get-theme-colors";
+import { 
+  getThemeColors, 
+  getFonts, 
+  getCardStyle, 
+  getGradientAccent,
+  getBadgeStyle,
+  getButtonPrimaryStyle 
+} from "@/lib/get-theme-colors";
 
 const projects = [
   {
@@ -44,9 +51,11 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const colors = getThemeColors("professional", isDarkMode);
-
-  const fontBody = "var(--font-inter), system-ui, sans-serif";
-  const fontHeading = "var(--font-playfair), Georgia, serif";
+  const { fontBody, fontHeading } = getFonts();
+  const cardStyle = getCardStyle(colors, isDarkMode);
+  const badgeStyle = getBadgeStyle(colors);
+  const gradientAccent = getGradientAccent(colors);
+  const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
 
   return (
     <section 
@@ -62,22 +71,10 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 
-            className="text-3xl sm:text-4xl font-bold mb-4"
-            style={{ 
-              fontFamily: fontHeading,
-              color: colors.primary,
-            }}
-          >
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: fontHeading, color: colors.primary }}>
             Featured Projects
           </h2>
-          <p 
-            className="text-base max-w-2xl mx-auto"
-            style={{ 
-              fontFamily: fontBody,
-              color: colors.textMuted,
-            }}
-          >
+          <p className="text-base max-w-2xl mx-auto" style={{ fontFamily: fontBody, color: colors.textMuted }}>
             Browse through my completed projects and work experience
           </p>
         </motion.div>
@@ -90,60 +87,32 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
               className="group rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl"
-              style={{
-                backgroundColor: colors.white,
-                border: `1px solid ${colors.border}`,
-              }}
+              style={cardStyle}
             >
               <div 
                 className="h-40 relative overflow-hidden"
-                style={{
-                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                }}
+                style={{ background: gradientAccent }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
                   <FolderGit2 className="w-16 h-16" style={{ color: isDarkMode ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.3)" }} />
                 </div>
                 <div 
                   className="absolute inset-0"
-                  style={{
-                    background: `linear-gradient(180deg, transparent 50%, ${colors.white} 100%)`,
-                  }}
+                  style={{ background: `linear-gradient(180deg, transparent 50%, ${colors.white} 100%)` }}
                 />
               </div>
               
               <div className="p-6">
-                <h3 
-                  className="text-xl font-semibold mb-2 group-hover:opacity-80 transition-colors"
-                  style={{ 
-                    fontFamily: fontBody,
-                    color: colors.text,
-                  }}
-                >
+                <h3 className="text-xl font-semibold mb-2 group-hover:opacity-80 transition-colors" style={{ fontFamily: fontBody, color: colors.text }}>
                   {project.title}
                 </h3>
-                <p 
-                  className="text-sm mb-4"
-                  style={{ 
-                    fontFamily: fontBody,
-                    color: colors.textMuted,
-                  }}
-                >
+                <p className="text-sm mb-4" style={{ fontFamily: fontBody, color: colors.textMuted }}>
                   {project.description}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech, j) => (
-                    <span
-                      key={j}
-                      className="px-2 py-1 rounded text-xs"
-                      style={{ 
-                        fontFamily: fontBody,
-                        backgroundColor: `${colors.primaryRgba} 0.1)`,
-                        color: colors.primary,
-                        border: `1px solid ${colors.primaryRgba} 0.2)`,
-                      }}
-                    >
+                    <span key={j} className="px-2 py-1 rounded text-xs" style={{ ...badgeStyle, fontFamily: fontBody }}>
                       {tech}
                     </span>
                   ))}
@@ -153,12 +122,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
                   <a
                     href={project.github}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
-                    style={{ 
-                      fontFamily: fontBody,
-                      backgroundColor: `${colors.primaryRgba} 0.1)`,
-                      color: colors.primary,
-                      border: `1px solid ${colors.primaryRgba} 0.2)`,
-                    }}
+                    style={{ ...badgeStyle, fontFamily: fontBody }}
                   >
                     <Code2 size={14} />
                     Code
@@ -166,11 +130,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
                   <a
                     href={project.demo}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
-                    style={{ 
-                      fontFamily: fontBody,
-                      backgroundColor: colors.primary,
-                      color: isDarkMode ? colors.text : "white",
-                    }}
+                    style={{ ...buttonPrimaryStyle, fontFamily: fontBody }}
                   >
                     Demo
                     <ArrowRight size={14} />
@@ -192,12 +152,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base transition-all hover:shadow-lg"
-            style={{ 
-              fontFamily: fontBody,
-              backgroundColor: colors.white,
-              color: colors.primary,
-              border: `1px solid ${colors.border}`,
-            }}
+            style={{ ...cardStyle, fontFamily: fontBody }}
           >
             View All Projects
             <ExternalLink size={18} />

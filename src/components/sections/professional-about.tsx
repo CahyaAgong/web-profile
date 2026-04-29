@@ -3,7 +3,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code, Database, Globe, Cpu } from "lucide-react";
-import { getThemeColors } from "@/lib/get-theme-colors";
+import { 
+  getThemeColors, 
+  getFonts, 
+  getCardStyle, 
+  getBadgeStyle 
+} from "@/lib/get-theme-colors";
 
 const skills = [
   { icon: Code, name: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
@@ -27,9 +32,9 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const colors = getThemeColors("professional", isDarkMode);
-
-  const fontBody = "var(--font-inter), system-ui, sans-serif";
-  const fontHeading = "var(--font-playfair), Georgia, serif";
+  const { fontBody, fontHeading } = getFonts();
+  const cardStyle = getCardStyle(colors, isDarkMode);
+  const badgeStyle = getBadgeStyle(colors);
 
   return (
     <section 
@@ -45,22 +50,10 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 
-            className="text-3xl sm:text-4xl font-bold mb-4"
-            style={{ 
-              fontFamily: fontHeading,
-              color: colors.primary,
-            }}
-          >
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4" style={{ fontFamily: fontHeading, color: colors.primary }}>
             About Me
           </h2>
-          <p 
-            className="text-base max-w-2xl mx-auto"
-            style={{ 
-              fontFamily: fontBody,
-              color: colors.textMuted,
-            }}
-          >
+          <p className="text-base max-w-2xl mx-auto" style={{ fontFamily: fontBody, color: colors.textMuted }}>
             Get to know more about my journey as a Software Engineer
           </p>
         </motion.div>
@@ -71,40 +64,16 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div 
-              className="rounded-2xl p-8"
-              style={{
-                backgroundColor: colors.white,
-                border: `1px solid ${colors.border}`,
-              }}
-            >
-              <h3 
-                className="text-xl font-semibold mb-4"
-                style={{ 
-                  fontFamily: fontBody,
-                  color: colors.text,
-                }}
-              >
+            <div className="rounded-2xl p-8" style={cardStyle}>
+              <h3 className="text-xl font-semibold mb-4" style={{ fontFamily: fontBody, color: colors.text }}>
                 About Me
               </h3>
-              <p 
-                className="text-sm leading-relaxed mb-4"
-                style={{ 
-                  fontFamily: fontBody,
-                  color: colors.textSecondary,
-                }}
-              >
+              <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: fontBody, color: colors.textSecondary }}>
                 A passionate Middle to Senior Software Engineer with 6+ years of experience 
                 building scalable web applications. Specialized in crafting exceptional 
                 digital experiences using modern technologies.
               </p>
-              <p 
-                className="text-sm leading-relaxed"
-                style={{ 
-                  fontFamily: fontBody,
-                  color: colors.textMuted,
-                }}
-              >
+              <p className="text-sm leading-relaxed" style={{ fontFamily: fontBody, color: colors.textMuted }}>
                 When not coding, you can find me exploring new technologies or contributing 
                 to open source projects. I believe in clean code, continuous learning, 
                 and delivering value through technology.
@@ -119,21 +88,12 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
                   className="rounded-xl p-4 text-center"
-                  style={{
-                    backgroundColor: colors.white,
-                    border: `1px solid ${colors.border}`,
-                  }}
+                  style={cardStyle}
                 >
-                  <div 
-                    className="text-2xl font-bold"
-                    style={{ color: colors.primary }}
-                  >
+                  <div className="text-2xl font-bold" style={{ color: colors.primary }}>
                     {stat.value}
                   </div>
-                  <div 
-                    className="text-xs"
-                    style={{ color: colors.textMuted }}
-                  >
+                  <div className="text-xs" style={{ color: colors.textMuted }}>
                     {stat.label}
                   </div>
                 </motion.div>
@@ -146,13 +106,7 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <h3 
-              className="text-xl font-semibold mb-6"
-              style={{ 
-                fontFamily: fontBody,
-                color: colors.text,
-              }}
-            >
+            <h3 className="text-xl font-semibold mb-6" style={{ fontFamily: fontBody, color: colors.text }}>
               Skills
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -163,36 +117,15 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
                   className="rounded-xl p-6"
-                  style={{
-                    backgroundColor: colors.white,
-                    border: `1px solid ${colors.border}`,
-                  }}
+                  style={cardStyle}
                 >
-                  <skill.icon 
-                    className="w-8 h-8 mb-3" 
-                    style={{ color: colors.accent }} 
-                  />
-                  <h4 
-                    className="text-base font-semibold mb-3"
-                    style={{ 
-                      fontFamily: fontBody,
-                      color: colors.text,
-                    }}
-                  >
+                  <skill.icon className="w-8 h-8 mb-3" style={{ color: colors.accent }} />
+                  <h4 className="text-base font-semibold mb-3" style={{ fontFamily: fontBody, color: colors.text }}>
                     {skill.name}
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {skill.items.map((item, j) => (
-                      <span
-                        key={j}
-                        className="px-2 py-1 rounded text-xs"
-                        style={{ 
-                          fontFamily: fontBody,
-                          backgroundColor: `${colors.accentRgba} 0.1)`,
-                          color: colors.accent,
-                          border: `1px solid ${colors.accentRgba} 0.2)`,
-                        }}
-                      >
+                      <span key={j} className="px-2 py-1 rounded text-xs" style={{ ...badgeStyle, fontFamily: fontBody }}>
                         {item}
                       </span>
                     ))}

@@ -20,11 +20,65 @@ export interface ThemeColors {
   white?: string;
 }
 
+const fontBody = "var(--font-inter), system-ui, sans-serif";
+const fontHeading = "var(--font-playfair), Georgia, serif";
+const fontMono = "'VT323', monospace";
+
 export function getThemeColors(mode: ThemeMode, isDarkMode: boolean = false): ThemeColors {
   if (mode === 'professional') {
     return isDarkMode ? professionalDarkColors : professionalColors;
   }
   return rpgColors;
+}
+
+export function getFonts() {
+  return { fontBody, fontHeading, fontMono };
+}
+
+export function getCardStyle(colors: ThemeColors, isDarkMode: boolean = false) {
+  return {
+    backgroundColor: colors.white,
+    border: `1px solid ${colors.border}`,
+  };
+}
+
+export function getGradientBg(colors: ThemeColors) {
+  return `linear-gradient(135deg, ${colors.background} 0%, ${colors.backgroundSecondary} 50%, ${colors.backgroundTertiary || colors.backgroundSecondary} 100%)`;
+}
+
+export function getGradientAccent(colors: ThemeColors) {
+  return `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`;
+}
+
+export function getButtonPrimaryStyle(colors: ThemeColors, isDarkMode: boolean = false) {
+  return {
+    backgroundColor: colors.primary,
+    color: isDarkMode ? colors.text : "white",
+  };
+}
+
+export function getButtonSecondaryStyle(colors: ThemeColors) {
+  return {
+    backgroundColor: colors.white,
+    color: colors.primary,
+    border: `1px solid ${colors.border}`,
+  };
+}
+
+export function getBadgeStyle(colors: ThemeColors) {
+  return {
+    backgroundColor: `${colors.primaryRgba} 0.1)`,
+    color: colors.primary,
+    border: `1px solid ${colors.primaryRgba} 0.2)`,
+  };
+}
+
+export function getInputStyle(colors: ThemeColors) {
+  return {
+    backgroundColor: colors.backgroundSecondary,
+    border: `1px solid ${colors.border}`,
+    color: colors.text,
+  };
 }
 
 export function getNavbarColors(mode: ThemeMode, isDarkMode: boolean = false) {
