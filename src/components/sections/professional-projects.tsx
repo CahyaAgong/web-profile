@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { FolderGit2, ExternalLink, Code2, ArrowRight } from "lucide-react";
+import { getThemeColors } from "@/lib/get-theme-colors";
 
 const projects = [
   {
@@ -35,15 +36,23 @@ const projects = [
   },
 ];
 
-export default function ProfessionalProjects() {
+interface ProfessionalProjectsProps {
+  isDarkMode?: boolean;
+}
+
+export default function ProfessionalProjects({ isDarkMode = false }: ProfessionalProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const colors = getThemeColors("professional", isDarkMode);
+
+  const fontBody = "var(--font-inter), system-ui, sans-serif";
+  const fontHeading = "var(--font-playfair), Georgia, serif";
 
   return (
     <section 
       id="projects" 
       className="py-24"
-      style={{ backgroundColor: "#f1f5f9" }}
+      style={{ backgroundColor: colors.backgroundSecondary }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -56,8 +65,8 @@ export default function ProfessionalProjects() {
           <h2 
             className="text-3xl sm:text-4xl font-bold mb-4"
             style={{ 
-              fontFamily: "var(--font-playfair), Georgia, serif",
-              color: "#1e3a5f",
+              fontFamily: fontHeading,
+              color: colors.primary,
             }}
           >
             Featured Projects
@@ -65,8 +74,8 @@ export default function ProfessionalProjects() {
           <p 
             className="text-base max-w-2xl mx-auto"
             style={{ 
-              fontFamily: "var(--font-inter), system-ui, sans-serif",
-              color: "#64748b",
+              fontFamily: fontBody,
+              color: colors.textMuted,
             }}
           >
             Browse through my completed projects and work experience
@@ -82,23 +91,23 @@ export default function ProfessionalProjects() {
               transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
               className="group rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-xl"
               style={{
-                backgroundColor: "white",
-                border: "1px solid #e2e8f0",
+                backgroundColor: colors.white,
+                border: `1px solid ${colors.border}`,
               }}
             >
               <div 
                 className="h-40 relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, #1e3a5f 0%, #0d9488 100%)",
+                  background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
                 }}
               >
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <FolderGit2 className="w-16 h-16" style={{ color: "rgba(255,255,255,0.3)" }} />
+                  <FolderGit2 className="w-16 h-16" style={{ color: isDarkMode ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.3)" }} />
                 </div>
                 <div 
                   className="absolute inset-0"
                   style={{
-                    background: "linear-gradient(180deg, transparent 50%, rgba(255,255,255,0.9) 100%)",
+                    background: `linear-gradient(180deg, transparent 50%, ${colors.white} 100%)`,
                   }}
                 />
               </div>
@@ -107,8 +116,8 @@ export default function ProfessionalProjects() {
                 <h3 
                   className="text-xl font-semibold mb-2 group-hover:opacity-80 transition-colors"
                   style={{ 
-                    fontFamily: "var(--font-inter), system-ui, sans-serif",
-                    color: "#1e3a5f",
+                    fontFamily: fontBody,
+                    color: colors.text,
                   }}
                 >
                   {project.title}
@@ -116,8 +125,8 @@ export default function ProfessionalProjects() {
                 <p 
                   className="text-sm mb-4"
                   style={{ 
-                    fontFamily: "var(--font-inter), system-ui, sans-serif",
-                    color: "#64748b",
+                    fontFamily: fontBody,
+                    color: colors.textMuted,
                   }}
                 >
                   {project.description}
@@ -129,10 +138,10 @@ export default function ProfessionalProjects() {
                       key={j}
                       className="px-2 py-1 rounded text-xs"
                       style={{ 
-                        fontFamily: "var(--font-inter), system-ui, sans-serif",
-                        backgroundColor: "rgba(30, 58, 95, 0.1)",
-                        color: "#1e3a5f",
-                        border: "1px solid rgba(30, 58, 95, 0.2)",
+                        fontFamily: fontBody,
+                        backgroundColor: `${colors.primaryRgba} 0.1)`,
+                        color: colors.primary,
+                        border: `1px solid ${colors.primaryRgba} 0.2)`,
                       }}
                     >
                       {tech}
@@ -145,10 +154,10 @@ export default function ProfessionalProjects() {
                     href={project.github}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
                     style={{ 
-                      fontFamily: "var(--font-inter), system-ui, sans-serif",
-                      backgroundColor: "rgba(30, 58, 95, 0.1)",
-                      color: "#1e3a5f",
-                      border: "1px solid rgba(30, 58, 95, 0.2)",
+                      fontFamily: fontBody,
+                      backgroundColor: `${colors.primaryRgba} 0.1)`,
+                      color: colors.primary,
+                      border: `1px solid ${colors.primaryRgba} 0.2)`,
                     }}
                   >
                     <Code2 size={14} />
@@ -158,9 +167,9 @@ export default function ProfessionalProjects() {
                     href={project.demo}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
                     style={{ 
-                      fontFamily: "var(--font-inter), system-ui, sans-serif",
-                      backgroundColor: "#1e3a5f",
-                      color: "white",
+                      fontFamily: fontBody,
+                      backgroundColor: colors.primary,
+                      color: isDarkMode ? colors.text : "white",
                     }}
                   >
                     Demo
@@ -184,10 +193,10 @@ export default function ProfessionalProjects() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base transition-all hover:shadow-lg"
             style={{ 
-              fontFamily: "var(--font-inter), system-ui, sans-serif",
-              backgroundColor: "white",
-              color: "#1e3a5f",
-              border: "1px solid #e2e8f0",
+              fontFamily: fontBody,
+              backgroundColor: colors.white,
+              color: colors.primary,
+              border: `1px solid ${colors.border}`,
             }}
           >
             View All Projects

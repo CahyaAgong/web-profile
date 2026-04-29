@@ -10,10 +10,11 @@ const socialLinks = [
 
 interface FooterProps {
   isProfessional?: boolean;
+  isDarkMode?: boolean;
 }
 
-export default function Footer({ isProfessional = false }: FooterProps) {
-  const colors = getFooterColors(isProfessional ? 'professional' : 'rpg');
+export default function Footer({ isProfessional = false, isDarkMode = false }: FooterProps) {
+  const colors = getFooterColors(isProfessional ? 'professional' : 'rpg', isDarkMode);
 
   return (
     <footer 

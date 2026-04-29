@@ -11,28 +11,29 @@ import ProfessionalAbout from "@/components/sections/professional-about";
 import ProfessionalProjects from "@/components/sections/professional-projects";
 import ProfessionalContact from "@/components/sections/professional-contact";
 import { useTheme } from "@/components/theme-provider";
-import { professionalColors, rpgColors } from "@/lib/theme-constants";
+import { rpgColors } from "@/lib/theme-constants";
+import { getThemeColors } from "@/lib/get-theme-colors";
 
 export default function HomeContent() {
-  const { mode } = useTheme();
+  const { mode, isDarkMode } = useTheme();
   const isProfessional = mode === "professional";
-  const colors = isProfessional ? professionalColors : rpgColors;
+  const colors = getThemeColors(mode, isDarkMode);
 
   return (
     <div 
       className="min-h-screen transition-colors duration-300"
       style={{ 
-        backgroundColor: isProfessional ? professionalColors.background : rpgColors.background,
+        backgroundColor: isProfessional ? colors.background : rpgColors.background,
       }}
     >
       <Navbar />
       <main>
         {isProfessional ? (
           <>
-            <ProfessionalHero />
-            <ProfessionalAbout />
-            <ProfessionalProjects />
-            <ProfessionalContact />
+            <ProfessionalHero isDarkMode={isDarkMode} />
+            <ProfessionalAbout isDarkMode={isDarkMode} />
+            <ProfessionalProjects isDarkMode={isDarkMode} />
+            <ProfessionalContact isDarkMode={isDarkMode} />
           </>
         ) : (
           <>
@@ -43,7 +44,7 @@ export default function HomeContent() {
           </>
         )}
       </main>
-      <Footer isProfessional={isProfessional} />
+      <Footer isProfessional={isProfessional} isDarkMode={isDarkMode} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "../theme-toggle";
+import DarkModeToggle from "../dark-mode-toggle";
 import { useTheme } from "../theme-provider";
 import { getNavbarColors } from "@/lib/get-theme-colors";
 import { professionalColors, rpgColors } from "@/lib/theme-constants";
@@ -20,7 +21,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("home");
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const { mode } = useTheme();
+  const { mode, isDarkMode } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,9 +53,8 @@ export default function Navbar() {
   };
 
   const isProfessional = mode === "professional";
-  const colors = getNavbarColors(mode);
+  const colors = getNavbarColors(mode, isDarkMode);
   const linkColor = colors.link;
-  const textColors = isProfessional ? professionalColors : rpgColors;
 
   return (
     <motion.nav
@@ -118,11 +118,15 @@ export default function Navbar() {
               </motion.a>
             ))}
             
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              <DarkModeToggle />
+            </div>
           </div>
 
           <div className="flex items-center gap-3 md:hidden">
             <ThemeToggle />
+            <DarkModeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
               style={{ color: linkColor }}

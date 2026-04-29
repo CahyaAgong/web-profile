@@ -3,7 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code, Database, Globe, Cpu } from "lucide-react";
-import { professionalColors } from "@/lib/theme-constants";
+import { getThemeColors } from "@/lib/get-theme-colors";
 
 const skills = [
   { icon: Code, name: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
@@ -19,9 +19,14 @@ const stats = [
   { value: "50+", label: "Coffee Cups" },
 ];
 
-export default function ProfessionalAbout() {
+interface ProfessionalAboutProps {
+  isDarkMode?: boolean;
+}
+
+export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAboutProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const colors = getThemeColors("professional", isDarkMode);
 
   const fontBody = "var(--font-inter), system-ui, sans-serif";
   const fontHeading = "var(--font-playfair), Georgia, serif";
@@ -30,7 +35,7 @@ export default function ProfessionalAbout() {
     <section 
       id="about" 
       className="py-24"
-      style={{ backgroundColor: professionalColors.background }}
+      style={{ backgroundColor: colors.backgroundSecondary }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -44,7 +49,7 @@ export default function ProfessionalAbout() {
             className="text-3xl sm:text-4xl font-bold mb-4"
             style={{ 
               fontFamily: fontHeading,
-              color: professionalColors.primary,
+              color: colors.primary,
             }}
           >
             About Me
@@ -53,7 +58,7 @@ export default function ProfessionalAbout() {
             className="text-base max-w-2xl mx-auto"
             style={{ 
               fontFamily: fontBody,
-              color: "#64748b",
+              color: colors.textMuted,
             }}
           >
             Get to know more about my journey as a Software Engineer
@@ -69,15 +74,15 @@ export default function ProfessionalAbout() {
             <div 
               className="rounded-2xl p-8"
               style={{
-                backgroundColor: "white",
-                border: "1px solid #e2e8f0",
+                backgroundColor: colors.white,
+                border: `1px solid ${colors.border}`,
               }}
             >
               <h3 
                 className="text-xl font-semibold mb-4"
                 style={{ 
-                  fontFamily: "var(--font-inter), system-ui, sans-serif",
-                  color: "#1e3a5f",
+                  fontFamily: fontBody,
+                  color: colors.text,
                 }}
               >
                 About Me
@@ -85,8 +90,8 @@ export default function ProfessionalAbout() {
               <p 
                 className="text-sm leading-relaxed mb-4"
                 style={{ 
-                  fontFamily: "var(--font-inter), system-ui, sans-serif",
-                  color: "#475569",
+                  fontFamily: fontBody,
+                  color: colors.textSecondary,
                 }}
               >
                 A passionate Middle to Senior Software Engineer with 6+ years of experience 
@@ -96,8 +101,8 @@ export default function ProfessionalAbout() {
               <p 
                 className="text-sm leading-relaxed"
                 style={{ 
-                  fontFamily: "var(--font-inter), system-ui, sans-serif",
-                  color: "#64748b",
+                  fontFamily: fontBody,
+                  color: colors.textMuted,
                 }}
               >
                 When not coding, you can find me exploring new technologies or contributing 
@@ -115,19 +120,19 @@ export default function ProfessionalAbout() {
                   transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
                   className="rounded-xl p-4 text-center"
                   style={{
-                    backgroundColor: "white",
-                    border: "1px solid #e2e8f0",
+                    backgroundColor: colors.white,
+                    border: `1px solid ${colors.border}`,
                   }}
                 >
                   <div 
                     className="text-2xl font-bold"
-                    style={{ color: "#1e3a5f" }}
+                    style={{ color: colors.primary }}
                   >
                     {stat.value}
                   </div>
                   <div 
                     className="text-xs"
-                    style={{ color: "#64748b" }}
+                    style={{ color: colors.textMuted }}
                   >
                     {stat.label}
                   </div>
@@ -144,8 +149,8 @@ export default function ProfessionalAbout() {
             <h3 
               className="text-xl font-semibold mb-6"
               style={{ 
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                color: "#1e3a5f",
+                fontFamily: fontBody,
+                color: colors.text,
               }}
             >
               Skills
@@ -159,19 +164,19 @@ export default function ProfessionalAbout() {
                   transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
                   className="rounded-xl p-6"
                   style={{
-                    backgroundColor: "white",
-                    border: "1px solid #e2e8f0",
+                    backgroundColor: colors.white,
+                    border: `1px solid ${colors.border}`,
                   }}
                 >
                   <skill.icon 
                     className="w-8 h-8 mb-3" 
-                    style={{ color: "#0d9488" }} 
+                    style={{ color: colors.accent }} 
                   />
                   <h4 
                     className="text-base font-semibold mb-3"
                     style={{ 
-                      fontFamily: "var(--font-inter), system-ui, sans-serif",
-                      color: "#1e3a5f",
+                      fontFamily: fontBody,
+                      color: colors.text,
                     }}
                   >
                     {skill.name}
@@ -182,10 +187,10 @@ export default function ProfessionalAbout() {
                         key={j}
                         className="px-2 py-1 rounded text-xs"
                         style={{ 
-                          fontFamily: "var(--font-inter), system-ui, sans-serif",
-                          backgroundColor: "rgba(13, 148, 136, 0.1)",
-                          color: "#0d9488",
-                          border: "1px solid rgba(13, 148, 136, 0.2)",
+                          fontFamily: fontBody,
+                          backgroundColor: `${colors.accentRgba} 0.1)`,
+                          color: colors.accent,
+                          border: `1px solid ${colors.accentRgba} 0.2)`,
                         }}
                       >
                         {item}

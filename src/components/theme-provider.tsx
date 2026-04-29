@@ -6,13 +6,17 @@ type ThemeMode = "rpg" | "professional";
 
 interface ThemeContextType {
   mode: ThemeMode;
+  isDarkMode: boolean;
   toggleMode: () => void;
+  toggleDarkMode: () => void;
   setMode: (mode: ThemeMode) => void;
 }
 
 const defaultContext: ThemeContextType = {
   mode: "professional",
+  isDarkMode: false,
   toggleMode: () => {},
+  toggleDarkMode: () => {},
   setMode: () => {},
 };
 
@@ -20,14 +24,21 @@ const ThemeContext = createContext<ThemeContextType>(defaultContext);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setModeState] = useState<ThemeMode>("professional");
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const savedMode = localStorage.getItem("theme-mode") as ThemeMode;
+    const savedDarkMode = localStorage.getItem("theme-dark-mode") === "true";
+    
     if (savedMode) {
       setModeState(savedMode);
       document.documentElement.setAttribute("data-theme", savedMode);
+    }
+    setIsDarkMode(savedDarkMode);
+    if (savedDarkMode) {
+      document.documentElement.setAttribute("data-dark-mode", "true");
     }
   }, []);
 
@@ -42,7 +53,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setMode(newMode);
   };
 
-  const value = { mode, toggleMode, setMode };
+  const toggleDarkMode = () => {
+    const newDarkMode = !isDarkMode;
+    setIsDarkMode(newDarkMode);
+    localStorage.setItem("theme-dark-mode", String(newDarkMode));
+    document.documentElement.setAttribute("data-dark-mode", String(newDarkMode));
+  };
+
+  const value = { mode, isDarkMode, toggleMode, toggleDarkMode, setMode };
 
   return (
     <ThemeContext.Provider value={value}>
