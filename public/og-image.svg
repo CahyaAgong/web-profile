@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#1e3a5f"/>
+  <text x="600" y="280" font-family="Georgia, serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle">Cahya Agung</text>
+  <text x="600" y="360" font-family="system-ui, sans-serif" font-size="36" fill="#0d9488" text-anchor="middle">Middle to Senior Software Engineer</text>
+  <text x="600" y="420" font-family="system-ui, sans-serif" font-size="24" fill="#94a3b8" text-anchor="middle">React | Next.js | Node.js | TypeScript</text>
+  <text x="600" y="550" font-family="system-ui, sans-serif" font-size="20" fill="#64748b" text-anchor="middle">cahya-agung.my.id</text>
+</svg>

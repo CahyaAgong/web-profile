@@ -2,7 +2,15 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
-import { getThemeColors } from "@/lib/get-theme-colors";
+import { 
+  getThemeColors, 
+  getFonts, 
+  getGradientBg, 
+  getGradientAccent,
+  getButtonPrimaryStyle,
+  getButtonSecondaryStyle,
+  getCardStyle 
+} from "@/lib/get-theme-colors";
 
 const stats = [
   { label: "Years Experience", value: "6+" },
@@ -10,23 +18,24 @@ const stats = [
   { label: "Happy Clients", value: "10+" },
 ];
 
-const fontBody = "var(--font-inter), system-ui, sans-serif";
-const fontHeading = "var(--font-playfair), Georgia, serif";
-
 interface ProfessionalHeroProps {
   isDarkMode?: boolean;
 }
 
 export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHeroProps) {
   const colors = getThemeColors("professional", isDarkMode);
+  const { fontBody, fontHeading } = getFonts();
+  const gradientBg = getGradientBg(colors);
+  const gradientAccent = getGradientAccent(colors);
+  const cardStyle = getCardStyle(colors, isDarkMode);
+  const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
+  const buttonSecondaryStyle = getButtonSecondaryStyle(colors);
 
   return (
     <section
       id="home"
       className="min-h-screen relative overflow-hidden flex items-center"
-      style={{
-        background: `linear-gradient(135deg, ${colors.background} 0%, ${colors.backgroundSecondary} 50%, ${colors.backgroundTertiary || colors.backgroundSecondary} 100%)`,
-      }}
+      style={{ background: gradientBg }}
     >
       <div className="absolute inset-0 overflow-hidden">
         <div 
@@ -64,14 +73,8 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
                 border: `1px solid ${colors.accentRgba} 0.3)`,
               }}
             >
-              <span 
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: colors.accent }}
-              />
-              <span 
-                className="text-sm font-medium"
-                style={{ color: colors.accent }}
-              >
+              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
+              <span className="text-sm font-medium" style={{ color: colors.accent }}>
                 Available for Hire
               </span>
             </motion.div>
@@ -81,10 +84,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
-              style={{ 
-                fontFamily: fontHeading,
-                color: colors.primary,
-              }}
+              style={{ fontFamily: fontHeading, color: colors.primary }}
             >
               Cahya Agung
             </motion.h1>
@@ -94,10 +94,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               className="text-xl sm:text-2xl font-semibold mb-2"
-              style={{ 
-                fontFamily: fontBody,
-                color: colors.accent,
-              }}
+              style={{ fontFamily: fontBody, color: colors.accent }}
             >
               Middle to Senior Software Engineer
             </motion.p>
@@ -107,10 +104,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="text-base leading-relaxed mb-6 max-w-xl"
-              style={{ 
-                fontFamily: fontBody,
-                color: colors.textMuted,
-              }}
+              style={{ fontFamily: fontBody, color: colors.textMuted }}
             >
               A passionate Full Stack Developer with 6+ years of experience 
               crafting exceptional digital experiences. Specialized in building 
@@ -137,10 +131,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               <a
                 href="#projects"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-lg"
-                style={{
-                  backgroundColor: colors.primary,
-                  color: isDarkMode ? colors.text : "white",
-                }}
+                style={buttonPrimaryStyle}
               >
                 View Projects
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
@@ -148,11 +139,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               <a
                 href="#contact"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-md"
-                style={{
-                  backgroundColor: isDarkMode ? colors.white : colors.white,
-                  color: colors.primary,
-                  border: `1px solid ${colors.border}`,
-                }}
+                style={buttonSecondaryStyle}
               >
                 Contact Me
               </a>
@@ -174,37 +161,21 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               >
                 <div 
                   className="absolute inset-0 rounded-3xl"
-                  style={{
-                    background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                    transform: "rotate(6deg)",
-                  }}
+                  style={{ background: gradientAccent, transform: "rotate(6deg)" }}
                 />
                 
                 <div 
                   className="absolute inset-4 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: `linear-gradient(180deg, ${colors.background} 0%, ${colors.backgroundSecondary} 100%)`,
-                    border: `1px solid ${colors.border}`,
-                  }}
+                  style={{ background: gradientBg, border: `1px solid ${colors.border}` }}
                 >
                   <div className="text-center">
                     <div 
                       className="w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl font-bold"
-                      style={{
-                        background: `linear-gradient(135deg, ${colors.primary} 0%, ${colors.accent} 100%)`,
-                        color: "white",
-                        fontFamily: fontHeading,
-                      }}
+                      style={{ background: gradientAccent, color: "white", fontFamily: fontHeading }}
                     >
                       CA
                     </div>
-                    <p 
-                      className="text-lg font-semibold"
-                      style={{ 
-                        fontFamily: fontBody,
-                        color: colors.primary,
-                      }}
-                    >
+                    <p className="text-lg font-semibold" style={{ fontFamily: fontBody, color: colors.primary }}>
                       Software Engineer
                     </p>
                   </div>
@@ -217,26 +188,14 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
                 transition={{ delay: 0.7 }}
                 className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-full max-w-sm"
               >
-                <div 
-                  className="rounded-xl p-4 shadow-lg"
-                  style={{
-                    backgroundColor: isDarkMode ? colors.white : colors.white,
-                    border: `1px solid ${colors.border}`,
-                  }}
-                >
+                <div className="rounded-xl p-4 shadow-lg" style={cardStyle}>
                   <div className="grid grid-cols-3 gap-4">
                     {stats.map((stat, i) => (
                       <div key={i} className="text-center">
-                        <div 
-                          className="text-2xl font-bold"
-                          style={{ color: colors.primary }}
-                        >
+                        <div className="text-2xl font-bold" style={{ color: colors.primary }}>
                           {stat.value}
                         </div>
-                        <div 
-                          className="text-xs"
-                          style={{ color: colors.textMuted }}
-                        >
+                        <div className="text-xs" style={{ color: colors.textMuted }}>
                           {stat.label}
                         </div>
                       </div>

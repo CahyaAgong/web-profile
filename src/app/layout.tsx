@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     description: "Portfolio of Cahya Agung, a Middle to Senior Software Engineer with 6+ years of experience. Specializing in React, Next.js, Node.js, and modern web technologies.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "Cahya Agung - Software Engineer Portfolio",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title: "Cahya Agung | Software Engineer",
     description: "Portfolio of Cahya Agung, a Middle to Senior Software Engineer with 6+ years of experience.",
     creator: "@cahyaagung",
-    images: ["/og-image.png"],
+    images: ["/og-image.svg"],
   },
   robots: {
     index: true,
@@ -96,6 +96,45 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="canonical" href={siteUrl} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Cahya Agung",
+              "jobTitle": "Middle to Senior Software Engineer",
+              "url": siteUrl,
+              "email": "cahyaagong@gmail.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Indonesia",
+                "addressCountry": "ID"
+              },
+              "knowsAbout": [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Node.js",
+                "PostgreSQL",
+                "MongoDB",
+                "Docker",
+                "AWS",
+                "GraphQL",
+                "Tailwind CSS"
+              ],
+              "sameAs": [
+                "https://github.com/CahyaAgong",
+                "https://twitter.com/cahyaagung"
+              ],
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Freelance"
+              },
+              "description": "Portfolio of Cahya Agung, a Middle to Senior Software Engineer with 6+ years of experience specializing in React, Next.js, Node.js, and modern web technologies."
+            }),
+          }}
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} min-h-full flex flex-col`}>
         <ThemeProvider>
