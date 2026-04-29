@@ -11,16 +11,18 @@ import ProfessionalAbout from "@/components/sections/professional-about";
 import ProfessionalProjects from "@/components/sections/professional-projects";
 import ProfessionalContact from "@/components/sections/professional-contact";
 import { useTheme } from "@/components/theme-provider";
+import { professionalColors, rpgColors } from "@/lib/theme-constants";
 
 export default function HomeContent() {
   const { mode } = useTheme();
   const isProfessional = mode === "professional";
+  const colors = isProfessional ? professionalColors : rpgColors;
 
   return (
     <div 
       className="min-h-screen transition-colors duration-300"
       style={{ 
-        backgroundColor: isProfessional ? "#fafaf9" : "#000000",
+        backgroundColor: isProfessional ? professionalColors.background : rpgColors.background,
       }}
     >
       <Navbar />

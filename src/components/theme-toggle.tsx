@@ -3,44 +3,47 @@
 import { motion } from "framer-motion";
 import { useTheme } from "./theme-provider";
 import { Briefcase, Gamepad2 } from "lucide-react";
+import { professionalColors, rpgColors } from "@/lib/theme-constants";
 
 export default function ThemeToggle() {
   const { mode, toggleMode } = useTheme();
+  const isRPG = mode === "rpg";
+  const colors = isRPG ? rpgColors : professionalColors;
 
   return (
     <motion.button
       onClick={toggleMode}
       className="relative flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors"
       style={{
-        backgroundColor: mode === "rpg" ? "rgba(34, 197, 94, 0.1)" : "rgba(30, 58, 95, 0.1)",
-        border: `1px solid ${mode === "rpg" ? "rgba(34, 197, 94, 0.3)" : "rgba(30, 58, 95, 0.3)"}`,
+        backgroundColor: isRPG ? `${rpgColors.primaryRgba} 0.1)` : `${professionalColors.primaryRgba} 0.1)`,
+        border: `1px solid ${isRPG ? `${rpgColors.primaryRgba} 0.3)` : `${professionalColors.primaryRgba} 0.3)`}`,
       }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      title={mode === "rpg" ? "Switch to Professional Mode" : "Switch to RPG Mode"}
+      title={isRPG ? "Switch to Professional Mode" : "Switch to RPG Mode"}
     >
       <motion.div
         className="absolute top-0.5 bottom-0.5 rounded-full"
         style={{
           width: "calc(50% - 2px)",
-          left: mode === "rpg" ? "2px" : "auto",
-          right: mode === "professional" ? "2px" : "auto",
-          backgroundColor: mode === "rpg" ? "#22c55e" : "#1e3a5f",
+          left: isRPG ? "2px" : "auto",
+          right: !isRPG ? "2px" : "auto",
+          backgroundColor: colors.primary,
         }}
         layout
         transition={{ type: "spring", stiffness: 500, damping: 35 }}
       />
       
       <div className="relative z-10 flex items-center gap-1.5">
-        {mode === "rpg" ? (
+        {isRPG ? (
           <>
             <Gamepad2 
               size={14} 
-              style={{ color: "#22c55e" }}
+              style={{ color: rpgColors.primary }}
             />
             <span 
               className="text-xs font-medium"
-              style={{ color: "#22c55e" }}
+              style={{ color: rpgColors.primary }}
             >
               RPG
             </span>
@@ -49,11 +52,11 @@ export default function ThemeToggle() {
           <>
             <Briefcase 
               size={14} 
-              style={{ color: "#1e3a5f" }}
+              style={{ color: professionalColors.primary }}
             />
             <span 
               className="text-xs font-medium"
-              style={{ color: "#1e3a5f" }}
+              style={{ color: professionalColors.primary }}
             >
               Pro
             </span>

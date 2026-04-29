@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Code, Database, Globe, Cpu } from "lucide-react";
+import { professionalColors } from "@/lib/theme-constants";
 
 const skills = [
   { icon: Code, name: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
@@ -22,11 +23,14 @@ export default function ProfessionalAbout() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  const fontBody = "var(--font-inter), system-ui, sans-serif";
+  const fontHeading = "var(--font-playfair), Georgia, serif";
+
   return (
     <section 
       id="about" 
       className="py-24"
-      style={{ backgroundColor: "#fafaf9" }}
+      style={{ backgroundColor: professionalColors.background }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -39,8 +43,8 @@ export default function ProfessionalAbout() {
           <h2 
             className="text-3xl sm:text-4xl font-bold mb-4"
             style={{ 
-              fontFamily: "var(--font-playfair), Georgia, serif",
-              color: "#1e3a5f",
+              fontFamily: fontHeading,
+              color: professionalColors.primary,
             }}
           >
             About Me
@@ -48,7 +52,7 @@ export default function ProfessionalAbout() {
           <p 
             className="text-base max-w-2xl mx-auto"
             style={{ 
-              fontFamily: "var(--font-inter), system-ui, sans-serif",
+              fontFamily: fontBody,
               color: "#64748b",
             }}
           >

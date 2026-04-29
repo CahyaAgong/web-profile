@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
+import { professionalColors } from "@/lib/theme-constants";
 
 const stats = [
   { label: "Years Experience", value: "6+" },
@@ -9,13 +10,16 @@ const stats = [
   { label: "Happy Clients", value: "10+" },
 ];
 
+const fontBody = "var(--font-inter), system-ui, sans-serif";
+const fontHeading = "var(--font-playfair), Georgia, serif";
+
 export default function ProfessionalHero() {
   return (
     <section
       id="home"
       className="min-h-screen relative overflow-hidden flex items-center"
       style={{
-        background: "linear-gradient(135deg, #fafaf9 0%, #f1f5f9 50%, #e2e8f0 100%)",
+        background: `linear-gradient(135deg, ${professionalColors.background} 0%, ${professionalColors.backgroundSecondary} 50%, ${professionalColors.backgroundTertiary} 100%)`,
       }}
     >
       <div className="absolute inset-0 overflow-hidden">
@@ -23,9 +27,9 @@ export default function ProfessionalHero() {
           className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              radial-gradient(circle at 20% 80%, rgba(30, 58, 95, 0.1) 1px, transparent 1px),
-              radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.1) 1px, transparent 1px),
-              radial-gradient(circle at 40% 40%, rgba(30, 58, 95, 0.05) 1px, transparent 1px)
+              radial-gradient(circle at 20% 80%, ${professionalColors.primaryRgba} 0.1) 1px, transparent 1px),
+              radial-gradient(circle at 80% 20%, ${professionalColors.accentRgba} 0.1) 1px, transparent 1px),
+              radial-gradient(circle at 40% 40%, ${professionalColors.primaryRgba} 0.05) 1px, transparent 1px)
             `,
             backgroundSize: "80px 80px",
           }}
@@ -50,17 +54,17 @@ export default function ProfessionalHero() {
               transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
               style={{
-                backgroundColor: "rgba(13, 148, 136, 0.1)",
-                border: "1px solid rgba(13, 148, 136, 0.3)",
+                backgroundColor: `${professionalColors.accentRgba} 0.1)`,
+                border: `1px solid ${professionalColors.accentRgba} 0.3)`,
               }}
             >
               <span 
                 className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: "#0d9488" }}
+                style={{ backgroundColor: professionalColors.accent }}
               />
               <span 
                 className="text-sm font-medium"
-                style={{ color: "#0d9488" }}
+                style={{ color: professionalColors.accent }}
               >
                 Available for Hire
               </span>
@@ -72,8 +76,8 @@ export default function ProfessionalHero() {
               transition={{ delay: 0.2 }}
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
               style={{ 
-                fontFamily: "var(--font-playfair), Georgia, serif",
-                color: "#1e3a5f",
+                fontFamily: fontHeading,
+                color: professionalColors.primary,
               }}
             >
               Cahya Agung
@@ -85,8 +89,8 @@ export default function ProfessionalHero() {
               transition={{ delay: 0.3 }}
               className="text-xl sm:text-2xl font-semibold mb-2"
               style={{ 
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                color: "#0d9488",
+                fontFamily: fontBody,
+                color: professionalColors.accent,
               }}
             >
               Middle to Senior Software Engineer
@@ -98,8 +102,8 @@ export default function ProfessionalHero() {
               transition={{ delay: 0.4 }}
               className="text-base leading-relaxed mb-6 max-w-xl"
               style={{ 
-                fontFamily: "var(--font-inter), system-ui, sans-serif",
-                color: "#64748b",
+                fontFamily: fontBody,
+                color: professionalColors.textMuted,
               }}
             >
               A passionate Full Stack Developer with 6+ years of experience 
@@ -108,12 +112,12 @@ export default function ProfessionalHero() {
             </motion.p>
 
             <div className="flex items-center gap-4 mb-8">
-              <div className="flex items-center gap-2 text-sm" style={{ color: "#64748b" }}>
-                <MapPin size={16} style={{ color: "#0d9488" }} />
+              <div className="flex items-center gap-2 text-sm" style={{ color: professionalColors.textMuted }}>
+                <MapPin size={16} style={{ color: professionalColors.accent }} />
                 <span>Indonesia</span>
               </div>
-              <div className="flex items-center gap-2 text-sm" style={{ color: "#64748b" }}>
-                <Mail size={16} style={{ color: "#0d9488" }} />
+              <div className="flex items-center gap-2 text-sm" style={{ color: professionalColors.textMuted }}>
+                <Mail size={16} style={{ color: professionalColors.accent }} />
                 <span>cahyaagong@gmail.com</span>
               </div>
             </div>
@@ -128,7 +132,7 @@ export default function ProfessionalHero() {
                 href="#projects"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-lg"
                 style={{
-                  backgroundColor: "#1e3a5f",
+                  backgroundColor: professionalColors.primary,
                   color: "white",
                 }}
               >
@@ -139,9 +143,9 @@ export default function ProfessionalHero() {
                 href="#contact"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-semibold transition-all hover:shadow-md"
                 style={{
-                  backgroundColor: "white",
-                  color: "#1e3a5f",
-                  border: "1px solid #e2e8f0",
+                  backgroundColor: professionalColors.white,
+                  color: professionalColors.primary,
+                  border: `1px solid ${professionalColors.border}`,
                 }}
               >
                 Contact Me
@@ -165,7 +169,7 @@ export default function ProfessionalHero() {
                 <div 
                   className="absolute inset-0 rounded-3xl"
                   style={{
-                    background: "linear-gradient(135deg, #1e3a5f 0%, #0d9488 100%)",
+                    background: `linear-gradient(135deg, ${professionalColors.primary} 0%, ${professionalColors.accent} 100%)`,
                     transform: "rotate(6deg)",
                   }}
                 />
@@ -173,17 +177,17 @@ export default function ProfessionalHero() {
                 <div 
                   className="absolute inset-4 rounded-2xl flex items-center justify-center"
                   style={{
-                    background: "linear-gradient(180deg, #fafaf9 0%, #f1f5f9 100%)",
-                    border: "1px solid #e2e8f0",
+                    background: `linear-gradient(180deg, ${professionalColors.background} 0%, ${professionalColors.backgroundSecondary} 100%)`,
+                    border: `1px solid ${professionalColors.border}`,
                   }}
                 >
                   <div className="text-center">
                     <div 
                       className="w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl font-bold"
                       style={{
-                        background: "linear-gradient(135deg, #1e3a5f 0%, #0d9488 100%)",
+                        background: `linear-gradient(135deg, ${professionalColors.primary} 0%, ${professionalColors.accent} 100%)`,
                         color: "white",
-                        fontFamily: "var(--font-playfair), Georgia, serif",
+                        fontFamily: fontHeading,
                       }}
                     >
                       CA
@@ -191,8 +195,8 @@ export default function ProfessionalHero() {
                     <p 
                       className="text-lg font-semibold"
                       style={{ 
-                        fontFamily: "var(--font-inter), system-ui, sans-serif",
-                        color: "#1e3a5f",
+                        fontFamily: fontBody,
+                        color: professionalColors.primary,
                       }}
                     >
                       Software Engineer
@@ -210,8 +214,8 @@ export default function ProfessionalHero() {
                 <div 
                   className="rounded-xl p-4 shadow-lg"
                   style={{
-                    backgroundColor: "white",
-                    border: "1px solid #e2e8f0",
+                    backgroundColor: professionalColors.white,
+                    border: `1px solid ${professionalColors.border}`,
                   }}
                 >
                   <div className="grid grid-cols-3 gap-4">
@@ -219,13 +223,13 @@ export default function ProfessionalHero() {
                       <div key={i} className="text-center">
                         <div 
                           className="text-2xl font-bold"
-                          style={{ color: "#1e3a5f" }}
+                          style={{ color: professionalColors.primary }}
                         >
                           {stat.value}
                         </div>
                         <div 
                           className="text-xs"
-                          style={{ color: "#64748b" }}
+                          style={{ color: professionalColors.textMuted }}
                         >
                           {stat.label}
                         </div>

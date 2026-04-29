@@ -1,4 +1,6 @@
 import { Code2, Mail, X } from "lucide-react";
+import { getFooterColors } from "@/lib/get-theme-colors";
+import { rpgColors } from "@/lib/theme-constants";
 
 const socialLinks = [
   { icon: Code2, href: "https://github.com/CahyaAgong", label: "GitHub" },
@@ -11,17 +13,14 @@ interface FooterProps {
 }
 
 export default function Footer({ isProfessional = false }: FooterProps) {
-  const bgColor = isProfessional ? "#ffffff" : "#000000";
-  const borderColor = isProfessional ? "rgba(30, 58, 95, 0.3)" : "#22c55e";
-  const textColor = isProfessional ? "#64748b" : "#9ca3af";
-  const iconColor = isProfessional ? "#1e3a5f" : "#22c55e";
+  const colors = getFooterColors(isProfessional ? 'professional' : 'rpg');
 
   return (
     <footer 
       className="py-8 border-t-2 transition-colors duration-300"
       style={{ 
-        backgroundColor: bgColor,
-        borderColor: borderColor,
+        backgroundColor: colors.background,
+        borderColor: colors.border,
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +29,7 @@ export default function Footer({ isProfessional = false }: FooterProps) {
             className="text-sm"
             style={{ 
               fontFamily: isProfessional ? "var(--font-inter), system-ui, sans-serif" : "'VT323', monospace",
-              color: textColor,
+              color: colors.text,
             }}
           >
             © 2024 CahyaAgong. All rights reserved.
@@ -45,8 +44,8 @@ export default function Footer({ isProfessional = false }: FooterProps) {
                 rel="noopener noreferrer"
                 className="p-2 rounded transition-colors"
                 style={{ 
-                  backgroundColor: isProfessional ? "rgba(30, 58, 95, 0.1)" : "rgba(34, 197, 94, 0.2)",
-                  color: iconColor,
+                  backgroundColor: colors.iconBg,
+                  color: colors.icon,
                 }}
               >
                 <social.icon size={20} />
@@ -62,8 +61,8 @@ export default function Footer({ isProfessional = false }: FooterProps) {
                 key={i}
                 className="w-3 h-3 rounded-full"
                 style={{
-                  backgroundColor: "#22c55e",
-                  boxShadow: "0 0 8px #22c55e",
+                  backgroundColor: rpgColors.primary,
+                  boxShadow: `0 0 8px ${rpgColors.primary}`,
                 }}
               />
             ))}

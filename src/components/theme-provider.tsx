@@ -11,7 +11,7 @@ interface ThemeContextType {
 }
 
 const defaultContext: ThemeContextType = {
-  mode: "rpg",
+  mode: "professional",
   toggleMode: () => {},
   setMode: () => {},
 };
@@ -19,7 +19,7 @@ const defaultContext: ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType>(defaultContext);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<ThemeMode>("rpg");
+  const [mode, setModeState] = useState<ThemeMode>("professional");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

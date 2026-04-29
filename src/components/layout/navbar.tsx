@@ -5,6 +5,8 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "../theme-toggle";
 import { useTheme } from "../theme-provider";
+import { getNavbarColors } from "@/lib/get-theme-colors";
+import { professionalColors, rpgColors } from "@/lib/theme-constants";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -50,14 +52,9 @@ export default function Navbar() {
   };
 
   const isProfessional = mode === "professional";
-  const linkColor = isProfessional ? "#1e3a5f" : "#22c55e";
-  const hoverColor = isProfessional ? "#0d9488" : "#4ade80";
-  const bgColor = isProfessional 
-    ? "rgba(250, 250, 249, 0.95)" 
-    : "rgba(0, 0, 0, 0.8)";
-  const borderColor = isProfessional 
-    ? "rgba(30, 58, 95, 0.3)" 
-    : "#22c55e";
+  const colors = getNavbarColors(mode);
+  const linkColor = colors.link;
+  const textColors = isProfessional ? professionalColors : rpgColors;
 
   return (
     <motion.nav
@@ -65,8 +62,8 @@ export default function Navbar() {
       animate={{ y: 0 }}
       className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b-4 transition-colors duration-300"
       style={{ 
-        backgroundColor: bgColor,
-        borderColor: borderColor,
+        backgroundColor: colors.background,
+        borderColor: colors.border,
       }}
     >
       <motion.div
@@ -83,7 +80,7 @@ export default function Navbar() {
             href="#home"
             onClick={(e) => handleNavClick(e, "#home")}
             whileHover={{ scale: 1.05 }}
-            className={`font-bold text-lg cursor-pointer transition-colors`}
+            className="font-bold text-lg cursor-pointer transition-colors"
             style={{ 
               fontFamily: isProfessional ? "var(--font-playfair)" : "'Press Start 2P', cursive",
               color: linkColor,
@@ -102,11 +99,12 @@ export default function Navbar() {
                 className="text-sm transition-colors relative"
                 style={{ 
                   fontFamily: isProfessional ? "var(--font-inter)" : "'VT323', monospace",
-                  color: activeSection === link.href.slice(1) ? linkColor : (isProfessional ? "#64748b" : "#d1d5db"),
                 }}
               >
                 <span style={{ 
-                  color: activeSection === link.href.slice(1) ? linkColor : (isProfessional ? "#475569" : "#9ca3af"),
+                  color: activeSection === link.href.slice(1) 
+                    ? linkColor 
+                    : colors.textMuted,
                 }}>
                   {link.name}
                 </span>
@@ -127,7 +125,7 @@ export default function Navbar() {
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}
-              style={{ color: isProfessional ? "#1e3a5f" : "#22c55e" }}
+              style={{ color: linkColor }}
               className="hover:opacity-80"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -142,8 +140,8 @@ export default function Navbar() {
           animate={{ opacity: 1, height: "auto" }}
           className="md:hidden border-t-2 transition-colors duration-300"
           style={{ 
-            backgroundColor: bgColor,
-            borderColor: borderColor,
+            backgroundColor: colors.background,
+            borderColor: colors.border,
           }}
         >
           <div className="px-4 py-4 space-y-4">
@@ -155,7 +153,9 @@ export default function Navbar() {
                 className="block text-base transition-colors"
                 style={{ 
                   fontFamily: isProfessional ? "var(--font-inter)" : "'VT323', monospace",
-                  color: activeSection === link.href.slice(1) ? linkColor : (isProfessional ? "#64748b" : "#d1d5db"),
+                  color: activeSection === link.href.slice(1) 
+                    ? linkColor 
+                    : colors.textMuted,
                 }}
               >
                 {link.name}
