@@ -13,9 +13,9 @@ export default function ThemeToggle() {
   return (
     <motion.button
       onClick={toggleMode}
-      className="relative flex items-center justify-center px-3 py-1.5 rounded-full transition-colors"
+      className="relative flex items-center justify-center px-2 py-1.5 rounded-full transition-colors"
       style={{
-        width: "40px",
+        minWidth: "56px",
         backgroundColor: isRPG ? `${rpgColors.primaryRgba} 0.1)` : `${professionalColors.primaryRgba} 0.1)`,
         border: `1px solid ${isRPG ? `${rpgColors.primaryRgba} 0.3)` : `${professionalColors.primaryRgba} 0.3)`}`,
       }}
@@ -26,24 +26,24 @@ export default function ThemeToggle() {
       <motion.div
         className="absolute top-0.5 bottom-0.5 rounded-full"
         style={{
-          width: "calc(50% - 2px)",
-          left: isRPG ? "2px" : "auto",
-          right: !isRPG ? "2px" : "auto",
+          width: "calc(50% - 3px)",
+          left: isRPG ? "3px" : "auto",
+          right: !isRPG ? "3px" : "auto",
           backgroundColor: colors.primary,
         }}
         layout
         transition={{ type: "spring", stiffness: 500, damping: 35 }}
       />
       
-      <div className="relative z-10 flex items-center justify-center w-full">
+      <div className="relative z-10 flex items-center justify-center gap-1.5 w-full">
         {isRPG ? (
           <Gamepad2 
-            size={16} 
+            size={18} 
             style={{ color: rpgColors.primary }}
           />
         ) : (
           <Briefcase 
-            size={16} 
+            size={18} 
             style={{ color: professionalColors.primary }}
           />
         )}
