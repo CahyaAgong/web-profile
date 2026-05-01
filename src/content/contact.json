@@ -1,0 +1,31 @@
+{
+  "email": "cahyaagong@gmail.com",
+  "location": "Indonesia",
+  "formPlaceholder": {
+    "name": "Your Name",
+    "email": "Email",
+    "message": "Tell me about your project..."
+  },
+  "socials": [
+    {
+      "platform": "GitHub",
+      "icon": "Code2",
+      "url": "https://github.com/CahyaAgong"
+    },
+    {
+      "platform": "Email",
+      "icon": "Mail",
+      "url": "mailto:cahyaagong@gmail.com"
+    },
+    {
+      "platform": "Discord",
+      "icon": "MessageSquare",
+      "url": "#"
+    },
+    {
+      "platform": "Twitter",
+      "icon": "X",
+      "url": "#"
+    }
+  ]
+}

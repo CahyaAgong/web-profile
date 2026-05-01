@@ -1,0 +1,33 @@
+{
+  "projects": [
+    {
+      "title": "E-Commerce Platform",
+      "description": "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
+      "tech": ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://example.com"
+    },
+    {
+      "title": "Task Management App",
+      "description": "Collaborative project management tool with real-time updates, kanban boards, and team messaging.",
+      "tech": ["React", "Node.js", "MongoDB", "Socket.io"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://example.com"
+    },
+    {
+      "title": "Portfolio Generator",
+      "description": "AI-powered portfolio builder that creates stunning developer portfolios from GitHub profiles.",
+      "tech": ["Next.js", "OpenAI", "Tailwind", "Vercel"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://example.com"
+    },
+    {
+      "title": "Real-time Chat App",
+      "description": "End-to-end encrypted messaging platform with voice calls and file sharing capabilities.",
+      "tech": ["React", "WebRTC", "Firebase", "Redux"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://example.com"
+    }
+  ],
+  "viewAllLink": "https://github.com/CahyaAgong"
+}

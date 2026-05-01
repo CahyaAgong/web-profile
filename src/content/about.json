@@ -1,0 +1,31 @@
+{
+  "bio": "A passionate Middle to Senior Software Engineer with 6+ years of experience building scalable web applications. Specialized in crafting exceptional digital experiences using modern technologies. When not coding, you can find me exploring new technologies or contributing to open source projects. I believe in clean code, continuous learning, and delivering value through technology.",
+  "skills": [
+    {
+      "category": "Frontend",
+      "icon": "Code",
+      "items": ["React", "Next.js", "TypeScript", "Tailwind"]
+    },
+    {
+      "category": "Backend",
+      "icon": "Database",
+      "items": ["Node.js", "PostgreSQL", "MongoDB", "GraphQL"]
+    },
+    {
+      "category": "DevOps",
+      "icon": "Globe",
+      "items": ["Docker", "AWS", "CI/CD", "Linux"]
+    },
+    {
+      "category": "Specialized",
+      "icon": "Cpu",
+      "items": ["System Design", "API Integration", "Performance"]
+    }
+  ],
+  "stats": [
+    { "value": "6+", "label": "Years Experience" },
+    { "value": "20+", "label": "Projects Delivered" },
+    { "value": "10+", "label": "Happy Clients" },
+    { "value": "50+", "label": "Coffee Cups" }
+  ]
+}
