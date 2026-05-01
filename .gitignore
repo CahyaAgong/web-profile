@@ -41,6 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 # local dev notes
-.kitchen/
+# .kitchen/
 
 .vercel
