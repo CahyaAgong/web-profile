@@ -1,0 +1,13 @@
+{
+  "name": "Cahya Agung",
+  "title": "Middle to Senior Software Engineer",
+  "description": "A passionate Full Stack Developer with 6+ years of experience crafting exceptional digital experiences. Specialized in building scalable web applications with modern technologies.",
+  "location": "Indonesia",
+  "email": "cahyaagong@gmail.com",
+  "availability": "Available for Hire",
+  "stats": [
+    { "label": "Years Experience", "value": "6+" },
+    { "label": "Projects Delivered", "value": "20+" },
+    { "label": "Happy Clients", "value": "10+" }
+  ]
+}

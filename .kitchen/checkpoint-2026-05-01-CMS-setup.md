@@ -1,7 +1,7 @@
 # Project Checkpoint - web-profile
 
 ## Last Updated
-2026-05-01 17:30 WIB
+2026-04-29 14:30 WIB
 
 ---
 
@@ -20,7 +20,6 @@ Portfolio website untuk software developer dengan dual-theme (Professional & RPG
 - **Fonts:** Inter, Playfair Display, VT323, Press Start 2P
 - **Icons:** Lucide React
 - **Deployment:** Vercel
-- **CMS:** Sanity.io (optional, dengan JSON fallback)
 
 ---
 
@@ -69,43 +68,108 @@ Portfolio website untuk software developer dengan dual-theme (Professional & RPG
   - `getBadgeStyle()` - badge/tag styles
   - `getInputStyle()` - input field styles
 
-### 8. CMS Setup (DONE - May 2026)
-- **CMS:** Sanity.io dengan embedded Studio support
-- **Fallback:** JSON files untuk jika bandwidth exceeded atau CMS unavailable
+### 8. CMS Setup (IN PROGRESS - May 2026)
+- **CMS:** Sanity.io dengan embedded Studio
+- **Fallback:** JSON files untuk jika bandwidth exceeded
 - **Content schemas:** Hero, About, Projects, Contact
-- **Data fetching layer:** `src/lib/sanity.ts` dengan automatic fallback logic
+- **Files created:**
+  - `src/sanity/` - Sanity config, schemas, types
+  - `src/content/` - JSON fallback files
+  - `src/lib/sanity.ts` - Data fetching layer dengan fallback logic
 
 ---
 
 ## Git History (Recent)
 ```
-CMS setup dengan Sanity.io + JSON fallback
-- Branch: feature/cms-setup
-- Issue: #14 CMS Setup
+9cad967 chore: add .vercel to gitignore
+35e71ae Merge pull request #13 from feature/seo-and-refactoring
+fc9d99b feat: complete SEO optimization and refactoring
+111bc87 feat: add SEO optimization and code refactoring helpers
+25f10ef Merge pull request #10: Professional mode theme
+...
 ```
 
 ---
 
+## SEO Score: 92/100
+
+### Passed Checks
+- Title & Meta Description ✅
+- Canonical URL ✅
+- Open Graph Tags ✅
+- Twitter Card Tags ✅
+- JSON-LD Structured Data ✅
+- Viewport & Charset ✅
+- Favicon ✅
+- OG Image (200 OK) ✅
+- SSL/HTTPS ✅
+- Mobile Friendly ✅
+- Static Generation ✅
+
+### Issues to Fix
+- [ ] Replace `google-site-verification-code` dengan kode asli dari Google Search Console
+- [ ] Replace OG image placeholder SVG dengan designed image
+
+---
+
+## Deployment
+
+### Vercel Deployment
+- **Production URL:** https://web-profile-one-omega.vercel.app
+- **GitHub Connected:** Yes
+- **Auto-deploy:** Enabled (on push to master)
+
+### Security Notes
+- No .env files committed
+- No hardcoded credentials
+- `.vercel/` folder in .gitignore
+
+---
+
+## User Preferences (from conversation)
+
+### Design Preferences
+1. Dual theme system (Professional + RPG)
+2. Professional theme should be recruiter-friendly
+3. Navy (#1e3a5f) + Teal (#0d9488) color scheme
+4. Inter for body, Playfair Display for headings
+
+### Development Preferences
+1. Branch-based development
+2. PR to main/master for all changes
+3. High-level language in issues for junior developers
+4. Clean, readable code dengan helper functions
+
+### Future Plans
+1. Add backend/CMS untuk content management
+2. Headless CMS options considered (Sanity, Contentful, Strapi)
+3. Real contact form handling
+
+---
+
 ## Open GitHub Issues
-- #14: Setup Sanity.io CMS untuk Portfolio (IN PROGRESS - prepare PR)
+- #9: Professional Mode Theme (DONE)
+- #12: SEO Optimization and Code Refactoring (DONE)
+- #13: PR for SEO Optimization (MERGED)
 
 ---
 
 ## Next Steps / To Do
 
-### High Priority (After CMS PR merged)
-1. [ ] Submit sitemap to Google Search Console
-2. [ ] Setup custom domain (cahya-agung.my.id)
-
-### Medium Priority
-1. [ ] Implement real contact form (Formspree/EmailJS/Backend)
-2. [ ] Add Google Analytics
-3. [ ] Add more projects to portfolio
-4. [ ] Add experience timeline
-
-### Low Priority
+### High Priority
 1. [ ] Replace google-site-verification dengan kode asli
 2. [ ] Design professional OG image
+3. [ ] Submit sitemap to Google Search Console
+
+### Medium Priority
+1. [ ] Setup CMS/Backend untuk content management
+2. [ ] Implement real contact form (Formspree/EmailJS/Backend)
+3. [ ] Add Google Analytics
+4. [ ] Setup custom domain (cahya-agung.my.id)
+
+### Low Priority
+1. [ ] Add more projects to portfolio
+2. [ ] Add experience timeline
 3. [ ] Add testimonials section
 4. [ ] Performance optimization
 
@@ -113,9 +177,17 @@ CMS setup dengan Sanity.io + JSON fallback
 
 ## Running the Project
 ```bash
-npm run dev          # Development server
-npm run studio       # Sanity CMS Studio
+cd E:/Projects/web-profile
+npm run dev
 ```
+
+---
+
+## Catatan Penting
+- Icon `Github` tidak tersedia di lucide-react, gunakan `Code2` sebagai alternatif
+- Tailwind CSS v4 menggunakan syntax baru (@import vs @tailwind)
+- shadcn/ui components sudah di-copy ke src/components/ui/
+- Vercel token: (for reference only, may need regeneration)
 
 ---
 
@@ -153,22 +225,33 @@ src/
 public/
 └── og-image.svg           # Social sharing image
 .kitchen/
-├── checkpoint-2026-04-26.md        # Old checkpoint
-├── checkpoint-2026-05-01-CMS-setup.md  # CMS setup checkpoint
-└── last-checkpoint.md              # Current checkpoint
+├── checkpoint-2026-04-26.md  # Old checkpoint (backup)
+└── last-checkpoint.md       # Current checkpoint
+.github/
+└── issues/
+    └── cms-setup.md        # CMS setup issue documentation
 ```
 
 ---
 
 ## Lessons Learned
 
-1. **CMS dengan Fallback:** Setup Sanity.io + JSON fallback memungkinkan content management tanpa dependensi penuh ke CMS provider
+1. **SEO Foundation is Important:** Comprehensive meta tags and structured data significantly improve search visibility
 
 2. **DRY Principle:** Centralizing style logic in helper functions makes code more maintainable
 
-3. **Environment Variables:** Gunakan `.env.local.example` sebagai template, jangan commit `.env.local`
+3. **Deployment is Easy with Vercel:** Next.js projects deploy seamlessly with proper configuration
 
 4. **Branching Strategy:** Feature branches + PR workflow keeps master clean and traceable
+
+5. **Helper Functions Pattern:**
+   ```tsx
+   // Before (verbose)
+   style={{ backgroundColor: colors.white, border: `1px solid ${colors.border}` }}
+
+   // After (clean)
+   style={cardStyle}
+   ```
 
 ---
 
