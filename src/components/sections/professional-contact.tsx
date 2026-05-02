@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { Mail, MapPin, Send, MessageSquare, Code2, X } from "lucide-react";
 import { 
   getThemeColors, 
@@ -11,13 +11,30 @@ import {
   getInputStyle,
   getButtonPrimaryStyle 
 } from "@/lib/get-theme-colors";
+import { getContactContent, type ContactContent, type Social } from "@/lib/sanity";
 
-const socialLinks = [
-  { icon: Code2, href: "https://github.com/CahyaAgong", label: "GitHub" },
-  { icon: Mail, href: "mailto:cahyaagong@gmail.com", label: "Email" },
-  { icon: MessageSquare, href: "#", label: "Discord" },
-  { icon: X, href: "#", label: "Twitter" },
-];
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Code2,
+  Mail,
+  MessageSquare,
+  X,
+};
+
+const defaultContactData: ContactContent = {
+  email: "cahyaagong@gmail.com",
+  location: "Indonesia",
+  formPlaceholder: {
+    name: "Your Name",
+    email: "Email",
+    message: "Tell me about your project...",
+  },
+  socials: [
+    { platform: "GitHub", icon: "Code2", url: "https://github.com/CahyaAgong" },
+    { platform: "Email", icon: "Mail", url: "mailto:cahyaagong@gmail.com" },
+    { platform: "Discord", icon: "MessageSquare", url: "#" },
+    { platform: "Twitter", icon: "X", url: "#" },
+  ],
+};
 
 interface ProfessionalContactProps {
   isDarkMode?: boolean;
@@ -32,6 +49,38 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
   const badgeStyle = getBadgeStyle(colors);
   const inputStyle = getInputStyle(colors);
   const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
+  
+  const [data, setData] = useState<ContactContent>(defaultContactData);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const content = await getContactContent();
+        if (content && content.email) {
+          setData(content);
+        }
+      } catch (error) {
+        console.warn("[Contact] Failed to load from CMS, using fallback:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  const { email, location, formPlaceholder, socials } = data;
+  const socialLinks: Social[] = socials || defaultContactData.socials;
+
+  if (loading) {
+    return (
+      <section className="py-24" style={{ backgroundColor: colors.background }}>
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section 
@@ -73,7 +122,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                   </div>
                   <div>
                     <p className="text-sm" style={{ color: colors.textMuted }}>Email</p>
-                    <p className="text-base font-medium" style={{ color: colors.text }}>cahyaagong@gmail.com</p>
+                    <p className="text-base font-medium" style={{ color: colors.text }}>{email}</p>
                   </div>
                 </div>
                 
@@ -83,7 +132,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                   </div>
                   <div>
                     <p className="text-sm" style={{ color: colors.textMuted }}>Location</p>
-                    <p className="text-base font-medium" style={{ color: colors.text }}>Indonesia</p>
+                    <p className="text-base font-medium" style={{ color: colors.text }}>{location}</p>
                   </div>
                 </div>
               </div>
@@ -91,20 +140,23 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
               <div>
                 <p className="text-sm mb-4" style={{ color: colors.textMuted }}>Connect with me:</p>
                 <div className="flex gap-3">
-                  {socialLinks.map((social, i) => (
-                    <motion.a
-                      key={i}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="p-3 rounded-xl transition-colors"
-                      style={{ ...badgeStyle, color: colors.primary }}
-                    >
-                      <social.icon className="w-6 h-6" />
-                    </motion.a>
-                  ))}
+                  {socialLinks?.map((social, i) => {
+                    const Icon = iconMap[social.icon] || Code2;
+                    return (
+                      <motion.a
+                        key={i}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-3 rounded-xl transition-colors"
+                        style={{ ...badgeStyle, color: colors.primary }}
+                      >
+                        <Icon className="w-6 h-6" />
+                      </motion.a>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -123,7 +175,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                   </label>
                   <input
                     type="text"
-                    placeholder="John Doe"
+                    placeholder={formPlaceholder?.name || "Your Name"}
                     className="w-full px-4 py-3 rounded-lg text-base transition-colors outline-none"
                     style={{ ...inputStyle, fontFamily: fontBody }}
                   />
@@ -135,7 +187,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                   </label>
                   <input
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder={formPlaceholder?.email || "Email"}
                     className="w-full px-4 py-3 rounded-lg text-base transition-colors outline-none"
                     style={{ ...inputStyle, fontFamily: fontBody }}
                   />
@@ -147,7 +199,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                   </label>
                   <textarea
                     rows={5}
-                    placeholder="Tell me about your project..."
+                    placeholder={formPlaceholder?.message || "Tell me about your project..."}
                     className="w-full px-4 py-3 rounded-lg text-base transition-colors outline-none resize-none"
                     style={{ ...inputStyle, fontFamily: fontBody }}
                   />
