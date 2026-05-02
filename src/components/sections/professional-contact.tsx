@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Mail, MapPin, Send, MessageSquare, Code2, X } from "lucide-react";
+import { Mail, MapPin, Send, Code2 } from "lucide-react";
 import { 
   getThemeColors, 
   getFonts, 
@@ -12,13 +12,8 @@ import {
   getButtonPrimaryStyle 
 } from "@/lib/get-theme-colors";
 import { getContactContent, type ContactContent, type Social } from "@/lib/sanity";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Code2,
-  Mail,
-  MessageSquare,
-  X,
-};
+import { useCMSContent } from "@/hooks/useCMSContent";
+import { getIcon } from "@/lib/utils/iconMap";
 
 const defaultContactData: ContactContent = {
   email: "cahyaagong@gmail.com",
@@ -36,6 +31,17 @@ const defaultContactData: ContactContent = {
   ],
 };
 
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="py-24" style={{ backgroundColor: colors.background }}>
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+      </div>
+    </section>
+  );
+}
+
 interface ProfessionalContactProps {
   isDarkMode?: boolean;
 }
@@ -43,44 +49,21 @@ interface ProfessionalContactProps {
 export default function ProfessionalContact({ isDarkMode = false }: ProfessionalContactProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data, loading } = useCMSContent(getContactContent, defaultContactData, "email");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const cardStyle = getCardStyle(colors, isDarkMode);
   const badgeStyle = getBadgeStyle(colors);
   const inputStyle = getInputStyle(colors);
   const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
-  
-  const [data, setData] = useState<ContactContent>(defaultContactData);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const content = await getContactContent();
-        if (content && content.email) {
-          setData(content);
-        }
-      } catch (error) {
-        console.warn("[Contact] Failed to load from CMS, using fallback:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
 
   const { email, location, formPlaceholder, socials } = data;
   const socialLinks: Social[] = socials || defaultContactData.socials;
-
-  if (loading) {
-    return (
-      <section className="py-24" style={{ backgroundColor: colors.background }}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section 
@@ -141,7 +124,7 @@ export default function ProfessionalContact({ isDarkMode = false }: Professional
                 <p className="text-sm mb-4" style={{ color: colors.textMuted }}>Connect with me:</p>
                 <div className="flex gap-3">
                   {socialLinks?.map((social, i) => {
-                    const Icon = iconMap[social.icon] || Code2;
+                    const Icon = getIcon(social.icon, Code2);
                     return (
                       <motion.a
                         key={i}

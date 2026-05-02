@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Code, Database, Globe, Cpu } from "lucide-react";
 import { 
@@ -10,13 +10,8 @@ import {
   getBadgeStyle 
 } from "@/lib/get-theme-colors";
 import { getAboutContent, type AboutContent, type SkillCategory } from "@/lib/sanity";
-
-const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  Code,
-  Database,
-  Globe,
-  Cpu,
-};
+import { useCMSContent } from "@/hooks/useCMSContent";
+import { getIcon } from "@/lib/utils/iconMap";
 
 const defaultAboutData: AboutContent = {
   bio: "A passionate Middle to Senior Software Engineer with 6+ years of experience building scalable web applications. Specialized in crafting exceptional digital experiences using modern technologies.",
@@ -34,6 +29,17 @@ const defaultAboutData: AboutContent = {
   ],
 };
 
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+      </div>
+    </section>
+  );
+}
+
 interface ProfessionalAboutProps {
   isDarkMode?: boolean;
 }
@@ -41,42 +47,19 @@ interface ProfessionalAboutProps {
 export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAboutProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data, loading } = useCMSContent(getAboutContent, defaultAboutData, "bio");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const cardStyle = getCardStyle(colors, isDarkMode);
   const badgeStyle = getBadgeStyle(colors);
-  
-  const [data, setData] = useState<AboutContent>(defaultAboutData);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const content = await getAboutContent();
-        if (content && content.bio) {
-          setData(content);
-        }
-      } catch (error) {
-        console.warn("[About] Failed to load from CMS, using fallback:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
 
   const skills: SkillCategory[] = data.skills || defaultAboutData.skills;
   const stats = data.stats || defaultAboutData.stats;
-
-  if (loading) {
-    return (
-      <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section 
@@ -146,7 +129,7 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {skills.map((skill, i) => {
-                const Icon = iconMap[skill.icon] || Code;
+                const Icon = getIcon(skill.icon, Code);
                 return (
                   <motion.div
                     key={i}

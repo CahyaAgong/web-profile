@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { FolderGit2, ExternalLink, Code2, ArrowRight } from "lucide-react";
 import { 
@@ -12,6 +12,7 @@ import {
   getButtonPrimaryStyle 
 } from "@/lib/get-theme-colors";
 import { getProjectsContent, type ProjectsContent } from "@/lib/sanity";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 const defaultProjectsData: ProjectsContent = {
   projects: [
@@ -47,6 +48,17 @@ const defaultProjectsData: ProjectsContent = {
   viewAllLink: "https://github.com/CahyaAgong",
 };
 
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+      </div>
+    </section>
+  );
+}
+
 interface ProfessionalProjectsProps {
   isDarkMode?: boolean;
 }
@@ -54,44 +66,21 @@ interface ProfessionalProjectsProps {
 export default function ProfessionalProjects({ isDarkMode = false }: ProfessionalProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data, loading } = useCMSContent(getProjectsContent, defaultProjectsData, "projects");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const cardStyle = getCardStyle(colors, isDarkMode);
   const badgeStyle = getBadgeStyle(colors);
   const gradientAccent = getGradientAccent(colors);
   const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
-  
-  const [data, setData] = useState<ProjectsContent>(defaultProjectsData);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const content = await getProjectsContent();
-        if (content && content.projects) {
-          setData(content);
-        }
-      } catch (error) {
-        console.warn("[Projects] Failed to load from CMS, using fallback:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
 
   const projects = data.projects || defaultProjectsData.projects;
   const viewAllLink = data.viewAllLink || "https://github.com/CahyaAgong";
-
-  if (loading) {
-    return (
-      <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section 

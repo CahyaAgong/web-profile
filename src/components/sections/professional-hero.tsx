@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Mail, MapPin } from "lucide-react";
 import { 
@@ -13,6 +12,7 @@ import {
   getCardStyle 
 } from "@/lib/get-theme-colors";
 import { getHeroContent, type HeroContent } from "@/lib/sanity";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 interface ProfessionalHeroProps {
   isDarkMode?: boolean;
@@ -32,25 +32,21 @@ const defaultHeroData: HeroContent = {
   ],
 };
 
-export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHeroProps) {
-  const [data, setData] = useState<HeroContent>(defaultHeroData);
-  const [loading, setLoading] = useState(true);
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="min-h-screen flex items-center justify-center" style={{ background: getGradientBg(colors) }}>
+      <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+    </section>
+  );
+}
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const content = await getHeroContent();
-        if (content && content.name) {
-          setData(content);
-        }
-      } catch (error) {
-        console.warn("[Hero] Failed to load from CMS, using fallback:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
-  }, []);
+export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHeroProps) {
+  const { data, loading } = useCMSContent(getHeroContent, defaultHeroData, "name");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
 
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
@@ -59,14 +55,6 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
   const cardStyle = getCardStyle(colors, isDarkMode);
   const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
   const buttonSecondaryStyle = getButtonSecondaryStyle(colors);
-
-  if (loading) {
-    return (
-      <section className="min-h-screen flex items-center justify-center" style={{ background: getGradientBg(getThemeColors("professional", isDarkMode)) }}>
-        <div className="animate-pulse text-lg" style={{ color: getThemeColors("professional", isDarkMode).accent }}>Loading...</div>
-      </section>
-    );
-  }
 
   return (
     <section
