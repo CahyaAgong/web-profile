@@ -34,8 +34,8 @@ export default defineType({
         {
           type: "object",
           fields: [
-            { name: "value", type: "string", title: "Value" },
             { name: "label", type: "string", title: "Label" },
+            { name: "value", type: "string", title: "Value" },
           ],
         },
       ],

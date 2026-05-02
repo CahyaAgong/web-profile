@@ -38,7 +38,7 @@ async function fetchWithFallback<T>(
     const data = await sanityClient.fetch<T>(sanityQuery, params);
     return data || fallbackData;
   } catch (error) {
-    console.warn("Sanity fetch failed, using fallback:", error);
+    console.warn(`[Sanity] Fetch failed for query, using fallback. Error:`, error);
     return fallbackData;
   }
 }
@@ -56,7 +56,7 @@ export async function getAboutContent(): Promise<AboutContent> {
   const query = `*[_type == "about"][0]{
     bio,
     "skills": skills[]{category, icon, items},
-    "stats": stats[]{value, label}
+    "stats": stats[]{label, value}
   }`;
 
   return fetchWithFallback(query, aboutData);

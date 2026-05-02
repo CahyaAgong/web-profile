@@ -23,9 +23,9 @@
     }
   ],
   "stats": [
-    { "value": "6+", "label": "Years Experience" },
-    { "value": "20+", "label": "Projects Delivered" },
-    { "value": "10+", "label": "Happy Clients" },
-    { "value": "50+", "label": "Coffee Cups" }
+    { "label": "Years Experience", "value": "6+" },
+    { "label": "Projects Delivered", "value": "20+" },
+    { "label": "Happy Clients", "value": "10+" },
+    { "label": "Coffee Cups", "value": "50+" }
   ]
 }
