@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Code, Database, Globe, Cpu } from "lucide-react";
 import { 
   getThemeColors, 
@@ -9,20 +9,36 @@ import {
   getCardStyle, 
   getBadgeStyle 
 } from "@/lib/get-theme-colors";
+import { getAboutContent, type AboutContent, type SkillCategory } from "@/lib/sanity";
+import { useCMSContent } from "@/hooks/useCMSContent";
+import { getIcon } from "@/lib/utils/iconMap";
 
-const skills = [
-  { icon: Code, name: "Frontend", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
-  { icon: Database, name: "Backend", items: ["Node.js", "PostgreSQL", "MongoDB", "GraphQL"] },
-  { icon: Globe, name: "DevOps", items: ["Docker", "AWS", "CI/CD", "Linux"] },
-  { icon: Cpu, name: "Specialized", items: ["System Design", "API Integration", "Performance"] },
-];
+const defaultAboutData: AboutContent = {
+  bio: "A passionate Middle to Senior Software Engineer with 6+ years of experience building scalable web applications. Specialized in crafting exceptional digital experiences using modern technologies.",
+  skills: [
+    { category: "Frontend", icon: "Code", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
+    { category: "Backend", icon: "Database", items: ["Node.js", "PostgreSQL", "MongoDB", "GraphQL"] },
+    { category: "DevOps", icon: "Globe", items: ["Docker", "AWS", "CI/CD", "Linux"] },
+    { category: "Specialized", icon: "Cpu", items: ["System Design", "API Integration", "Performance"] },
+  ],
+  stats: [
+    { value: "6+", label: "Years Experience" },
+    { value: "20+", label: "Projects Delivered" },
+    { value: "10+", label: "Happy Clients" },
+    { value: "50+", label: "Coffee Cups" },
+  ],
+};
 
-const stats = [
-  { value: "6+", label: "Years Experience" },
-  { value: "20+", label: "Projects Delivered" },
-  { value: "10+", label: "Happy Clients" },
-  { value: "50+", label: "Coffee Cups" },
-];
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+      </div>
+    </section>
+  );
+}
 
 interface ProfessionalAboutProps {
   isDarkMode?: boolean;
@@ -31,10 +47,19 @@ interface ProfessionalAboutProps {
 export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAboutProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data, loading } = useCMSContent(getAboutContent, defaultAboutData, "bio");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const cardStyle = getCardStyle(colors, isDarkMode);
   const badgeStyle = getBadgeStyle(colors);
+
+  const skills: SkillCategory[] = data.skills || defaultAboutData.skills;
+  const stats = data.stats || defaultAboutData.stats;
 
   return (
     <section 
@@ -69,19 +94,12 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
                 About Me
               </h3>
               <p className="text-sm leading-relaxed mb-4" style={{ fontFamily: fontBody, color: colors.textSecondary }}>
-                A passionate Middle to Senior Software Engineer with 6+ years of experience 
-                building scalable web applications. Specialized in crafting exceptional 
-                digital experiences using modern technologies.
-              </p>
-              <p className="text-sm leading-relaxed" style={{ fontFamily: fontBody, color: colors.textMuted }}>
-                When not coding, you can find me exploring new technologies or contributing 
-                to open source projects. I believe in clean code, continuous learning, 
-                and delivering value through technology.
+                {data.bio}
               </p>
             </div>
 
             <div className="grid grid-cols-4 gap-4 mt-6">
-              {stats.map((stat, i) => (
+              {stats?.map((stat, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -110,28 +128,31 @@ export default function ProfessionalAbout({ isDarkMode = false }: ProfessionalAb
               Skills
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {skills.map((skill, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                  className="rounded-xl p-6"
-                  style={cardStyle}
-                >
-                  <skill.icon className="w-8 h-8 mb-3" style={{ color: colors.accent }} />
-                  <h4 className="text-base font-semibold mb-3" style={{ fontFamily: fontBody, color: colors.text }}>
-                    {skill.name}
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {skill.items.map((item, j) => (
-                      <span key={j} className="px-2 py-1 rounded text-xs" style={{ ...badgeStyle, fontFamily: fontBody }}>
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
+              {skills.map((skill, i) => {
+                const Icon = getIcon(skill.icon, Code);
+                return (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
+                    className="rounded-xl p-6"
+                    style={cardStyle}
+                  >
+                    <Icon className="w-8 h-8 mb-3" style={{ color: colors.accent }} />
+                    <h4 className="text-base font-semibold mb-3" style={{ fontFamily: fontBody, color: colors.text }}>
+                      {skill.category}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {skill.items?.map((item, j) => (
+                        <span key={j} className="px-2 py-1 rounded text-xs" style={{ ...badgeStyle, fontFamily: fontBody }}>
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
         </div>

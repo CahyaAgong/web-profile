@@ -11,18 +11,43 @@ import {
   getButtonSecondaryStyle,
   getCardStyle 
 } from "@/lib/get-theme-colors";
-
-const stats = [
-  { label: "Years Experience", value: "6+" },
-  { label: "Projects Delivered", value: "20+" },
-  { label: "Happy Clients", value: "10+" },
-];
+import { getHeroContent, type HeroContent } from "@/lib/sanity";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
 interface ProfessionalHeroProps {
   isDarkMode?: boolean;
 }
 
+const defaultHeroData: HeroContent = {
+  name: "Cahya Agung",
+  title: "Middle to Senior Software Engineer",
+  description: "A passionate Full Stack Developer with 6+ years of experience crafting exceptional digital experiences. Specialized in building scalable web applications with modern technologies.",
+  location: "Indonesia",
+  email: "cahyaagong@gmail.com",
+  availability: "Available for Hire",
+  stats: [
+    { label: "Years Experience", value: "6+" },
+    { label: "Projects Delivered", value: "20+" },
+    { label: "Happy Clients", value: "10+" },
+  ],
+};
+
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="min-h-screen flex items-center justify-center" style={{ background: getGradientBg(colors) }}>
+      <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+    </section>
+  );
+}
+
 export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHeroProps) {
+  const { data, loading } = useCMSContent(getHeroContent, defaultHeroData, "name");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const gradientBg = getGradientBg(colors);
@@ -75,7 +100,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
             >
               <span className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
               <span className="text-sm font-medium" style={{ color: colors.accent }}>
-                Available for Hire
+                {data.availability}
               </span>
             </motion.div>
 
@@ -86,7 +111,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4"
               style={{ fontFamily: fontHeading, color: colors.primary }}
             >
-              Cahya Agung
+              {data.name}
             </motion.h1>
 
             <motion.p
@@ -96,7 +121,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               className="text-xl sm:text-2xl font-semibold mb-2"
               style={{ fontFamily: fontBody, color: colors.accent }}
             >
-              Middle to Senior Software Engineer
+              {data.title}
             </motion.p>
 
             <motion.p
@@ -106,19 +131,17 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               className="text-base leading-relaxed mb-6 max-w-xl"
               style={{ fontFamily: fontBody, color: colors.textMuted }}
             >
-              A passionate Full Stack Developer with 6+ years of experience 
-              crafting exceptional digital experiences. Specialized in building 
-              scalable web applications with modern technologies.
+              {data.description}
             </motion.p>
 
             <div className="flex items-center gap-4 mb-8">
               <div className="flex items-center gap-2 text-sm" style={{ color: colors.textMuted }}>
                 <MapPin size={16} style={{ color: colors.accent }} />
-                <span>Indonesia</span>
+                <span>{data.location}</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: colors.textMuted }}>
                 <Mail size={16} style={{ color: colors.accent }} />
-                <span>cahyaagong@gmail.com</span>
+                <span>{data.email}</span>
               </div>
             </div>
 
@@ -190,7 +213,7 @@ export default function ProfessionalHero({ isDarkMode = false }: ProfessionalHer
               >
                 <div className="rounded-xl p-4 shadow-lg" style={cardStyle}>
                   <div className="grid grid-cols-3 gap-4">
-                    {stats.map((stat, i) => (
+                    {data.stats?.map((stat, i) => (
                       <div key={i} className="text-center">
                         <div className="text-2xl font-bold" style={{ color: colors.primary }}>
                           {stat.value}

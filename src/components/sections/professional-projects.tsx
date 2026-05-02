@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { FolderGit2, ExternalLink, Code2, ArrowRight } from "lucide-react";
 import { 
   getThemeColors, 
@@ -11,37 +11,53 @@ import {
   getBadgeStyle,
   getButtonPrimaryStyle 
 } from "@/lib/get-theme-colors";
+import { getProjectsContent, type ProjectsContent } from "@/lib/sanity";
+import { useCMSContent } from "@/hooks/useCMSContent";
 
-const projects = [
-  {
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
-    tech: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Task Management App",
-    description: "Collaborative project management tool with real-time updates, kanban boards, and team messaging.",
-    tech: ["React", "Node.js", "MongoDB", "Socket.io"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Portfolio Generator",
-    description: "AI-powered portfolio builder that creates stunning developer portfolios from GitHub profiles.",
-    tech: ["Next.js", "OpenAI", "Tailwind", "Vercel"],
-    github: "#",
-    demo: "#",
-  },
-  {
-    title: "Real-time Chat App",
-    description: "End-to-end encrypted messaging platform with voice calls and file sharing capabilities.",
-    tech: ["React", "WebRTC", "Firebase", "Redux"],
-    github: "#",
-    demo: "#",
-  },
-];
+const defaultProjectsData: ProjectsContent = {
+  projects: [
+    {
+      title: "E-Commerce Platform",
+      description: "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
+      tech: ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
+      github: "https://github.com/CahyaAgong",
+      demo: "https://example.com",
+    },
+    {
+      title: "Task Management App",
+      description: "Collaborative project management tool with real-time updates, kanban boards, and team messaging.",
+      tech: ["React", "Node.js", "MongoDB", "Socket.io"],
+      github: "https://github.com/CahyaAgong",
+      demo: "https://example.com",
+    },
+    {
+      title: "Portfolio Generator",
+      description: "AI-powered portfolio builder that creates stunning developer portfolios from GitHub profiles.",
+      tech: ["Next.js", "OpenAI", "Tailwind", "Vercel"],
+      github: "https://github.com/CahyaAgong",
+      demo: "https://example.com",
+    },
+    {
+      title: "Real-time Chat App",
+      description: "End-to-end encrypted messaging platform with voice calls and file sharing capabilities.",
+      tech: ["React", "WebRTC", "Firebase", "Redux"],
+      github: "https://github.com/CahyaAgong",
+      demo: "https://example.com",
+    },
+  ],
+  viewAllLink: "https://github.com/CahyaAgong",
+};
+
+function LoadingSkeleton({ isDarkMode }: { isDarkMode?: boolean }) {
+  const colors = getThemeColors("professional", isDarkMode);
+  return (
+    <section className="py-24" style={{ backgroundColor: colors.backgroundSecondary }}>
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="animate-pulse text-lg" style={{ color: colors.accent }}>Loading...</div>
+      </div>
+    </section>
+  );
+}
 
 interface ProfessionalProjectsProps {
   isDarkMode?: boolean;
@@ -50,12 +66,21 @@ interface ProfessionalProjectsProps {
 export default function ProfessionalProjects({ isDarkMode = false }: ProfessionalProjectsProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { data, loading } = useCMSContent(getProjectsContent, defaultProjectsData, "projects");
+  
+  if (loading) {
+    return <LoadingSkeleton isDarkMode={isDarkMode} />;
+  }
+
   const colors = getThemeColors("professional", isDarkMode);
   const { fontBody, fontHeading } = getFonts();
   const cardStyle = getCardStyle(colors, isDarkMode);
   const badgeStyle = getBadgeStyle(colors);
   const gradientAccent = getGradientAccent(colors);
   const buttonPrimaryStyle = getButtonPrimaryStyle(colors, isDarkMode);
+
+  const projects = data.projects || defaultProjectsData.projects;
+  const viewAllLink = data.viewAllLink || "https://github.com/CahyaAgong";
 
   return (
     <section 
@@ -80,7 +105,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, i) => (
+          {projects?.map((project, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
@@ -111,7 +136,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, j) => (
+                  {project.tech?.map((tech, j) => (
                     <span key={j} className="px-2 py-1 rounded text-xs" style={{ ...badgeStyle, fontFamily: fontBody }}>
                       {tech}
                     </span>
@@ -121,6 +146,8 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
                 <div className="flex gap-3">
                   <a
                     href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
                     style={{ ...badgeStyle, fontFamily: fontBody }}
                   >
@@ -129,6 +156,8 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
                   </a>
                   <a
                     href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm transition-colors"
                     style={{ ...buttonPrimaryStyle, fontFamily: fontBody }}
                   >
@@ -148,7 +177,7 @@ export default function ProfessionalProjects({ isDarkMode = false }: Professiona
           className="text-center mt-12"
         >
           <a
-            href="https://github.com/CahyaAgong"
+            href={viewAllLink}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg text-base transition-all hover:shadow-lg"
