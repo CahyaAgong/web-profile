@@ -2,31 +2,45 @@
   "projects": [
     {
       "title": "E-Commerce Platform",
-      "description": "A full-stack e-commerce solution with real-time inventory management, payment integration, and admin dashboard.",
-      "tech": ["Next.js", "TypeScript", "PostgreSQL", "Stripe"],
+      "description": "A comprehensive full-stack e-commerce solution featuring real-time inventory management, secure payment integration with Stripe, admin dashboard with analytics, and responsive customer-facing storefront.",
+      "tech": ["Next.js", "TypeScript", "PostgreSQL", "Stripe", "Tailwind CSS"],
       "github": "https://github.com/CahyaAgong",
-      "demo": "https://example.com"
+      "demo": "https://github.com/CahyaAgong"
     },
     {
-      "title": "Task Management App",
-      "description": "Collaborative project management tool with real-time updates, kanban boards, and team messaging.",
-      "tech": ["React", "Node.js", "MongoDB", "Socket.io"],
+      "title": "SaaS Dashboard",
+      "description": "Analytics-driven SaaS dashboard with real-time data visualization, role-based access control, subscription billing management, and automated reporting features.",
+      "tech": ["React", "Node.js", "MongoDB", "Recharts", "JWT Auth"],
       "github": "https://github.com/CahyaAgong",
-      "demo": "https://example.com"
+      "demo": "https://github.com/CahyaAgong"
     },
     {
-      "title": "Portfolio Generator",
-      "description": "AI-powered portfolio builder that creates stunning developer portfolios from GitHub profiles.",
-      "tech": ["Next.js", "OpenAI", "Tailwind", "Vercel"],
+      "title": "AI Content Platform",
+      "description": "AI-powered content generation platform that helps developers create documentation, blog posts, and technical articles. Integrates with OpenAI API and provides a rich text editor.",
+      "tech": ["Next.js", "OpenAI API", "Tailwind", "Prisma", "Vercel"],
       "github": "https://github.com/CahyaAgong",
-      "demo": "https://example.com"
+      "demo": "https://github.com/CahyaAgong"
     },
     {
-      "title": "Real-time Chat App",
-      "description": "End-to-end encrypted messaging platform with voice calls and file sharing capabilities.",
-      "tech": ["React", "WebRTC", "Firebase", "Redux"],
+      "title": "Real-time Collaboration Tool",
+      "description": "End-to-end encrypted collaboration platform featuring real-time document editing, voice/video calls via WebRTC, team workspaces, and granular permission controls.",
+      "tech": ["React", "WebRTC", "Socket.io", "Firebase", "TypeScript"],
       "github": "https://github.com/CahyaAgong",
-      "demo": "https://example.com"
+      "demo": "https://github.com/CahyaAgong"
+    },
+    {
+      "title": "API Gateway Service",
+      "description": "Scalable API gateway built with microservices architecture, featuring rate limiting, request caching, authentication middleware, and comprehensive logging/monitoring.",
+      "tech": ["Node.js", "Redis", "Docker", "AWS", "GraphQL"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://github.com/CahyaAgong"
+    },
+    {
+      "title": "Mobile-First PWA",
+      "description": "Progressive web application delivering native-like mobile experience with offline support, push notifications, and smooth animations. Designed for performance on low-bandwidth networks.",
+      "tech": ["Next.js", "Service Workers", "IndexedDB", "Tailwind", "Framer Motion"],
+      "github": "https://github.com/CahyaAgong",
+      "demo": "https://github.com/CahyaAgong"
     }
   ],
   "viewAllLink": "https://github.com/CahyaAgong"

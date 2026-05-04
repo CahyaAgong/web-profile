@@ -1,7 +1,7 @@
 # Project Checkpoint - web-profile
 
 ## Last Updated
-2026-05-04 15:00 WIB
+2026-05-01 17:30 WIB
 
 ---
 
@@ -13,7 +13,7 @@ Portfolio website untuk software developer dengan dual-theme (Professional & RPG
 ---
 
 ## Tech Stack
-- **Framework:** Next.js 16.2.4 (webpack mode)
+- **Framework:** Next.js 16.2.4
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4 + shadcn/ui
 - **Animations:** Framer Motion
@@ -41,7 +41,7 @@ Portfolio website untuk software developer dengan dual-theme (Professional & RPG
 - **RPG:** Player profile card dengan skill tree
 
 ### 4. Projects Section
-- 6 placeholder projects dengan tech tags
+- 4 placeholder projects dengan tech tags
 - GitHub & Demo links
 - "View All Projects" link to GitHub
 
@@ -77,78 +77,31 @@ Portfolio website untuk software developer dengan dual-theme (Professional & RPG
 
 ---
 
-## Session Updates (2026-05-04)
-
-### Bug Fixes
-1. **Turbopack error → switch ke webpack**
-   - Error: `An unexpected Turbopack error occurred` (exit code 0xc0000142 pada Windows)
-   - Fix: Ubah `dev` script ke `next dev --webpack`
-   - Root cause: Turbopack CSS processing conflict di Windows
-
-2. **Module not found: `@/src/content/hero.json`**
-   - Error: Webpack resolve error karena path salah
-   - Fix: Ganti import path dari `@/src/content/*` ke `@/content/*`
-   - Root cause: `@/*` alias di tsconfig.json sudah mengarah ke `./src/*`
-
-3. **Hydration mismatch warning**
-   - Error: `cz-shortcut-listen="true"` attribute mismatch pada `<body>` (browser extension)
-   - Fix: Tambah `suppressHydrationWarning` ke `<body>` tag di layout.tsx
-
-4. **`@sanity/image-url` deprecation warning**
-   - Warning: Default export deprecated
-   - Fix: Ganti `import imageUrlBuilder` ke `import { createImageUrlBuilder }` dan update usage
-
-### Content Updates
-1. **hero.json** - Enhanced description, updated stats (3 items)
-2. **about.json** - Added detailed bio, expanded skills (Frontend/Backend/DevOps/Specialized), updated stats (4 items)
-3. **projects.json** - Expanded from 4 to 6 projects with richer descriptions, relevant tech stacks
-4. **contact.json** - Updated form placeholders, real social links for Discord and Twitter
-5. **Component defaults** - Synced all default data in components with JSON fallback files
-
-### Infrastructure
-1. **Sanity seed script** (`scripts/seed-sanity.ts`)
-   - Auto-populate Sanity dataset from JSON files
-   - Usage: `npm run seed` (requires `SANITY_API_WRITE_TOKEN` in .env.local)
-   - Dependencies: tsx, dotenv
-
-2. **Environment setup**
-   - `.env.local` created with `NEXT_PUBLIC_SANITY_PROJECT_ID=5m93ylii`
-
----
-
 ## Git History (Recent)
 ```
 CMS setup dengan Sanity.io + JSON fallback
 - Branch: feature/cms-setup
 - Issue: #14 CMS Setup
-
-Content seeding and bug fixes
-- Turbopack → webpack switch
-- Module import path fixes
-- Content files populated with production data
-- Component defaults synced
-- Sanity seed script created
 ```
 
 ---
 
 ## Open GitHub Issues
-- #14: Setup Sanity.io CMS untuk Portfolio (DONE - merged to master)
+- #14: Setup Sanity.io CMS untuk Portfolio (IN PROGRESS - prepare PR)
 
 ---
 
 ## Next Steps / To Do
 
-### High Priority
-1. [ ] Generate and add `SANITY_API_WRITE_TOKEN` → run `npm run seed`
-2. [ ] Setup real contact form (Formspree/EmailJS/Backend)
-3. [ ] Submit sitemap to Google Search Console
-4. [ ] Setup custom domain (cahya-agung.my.id)
+### High Priority (After CMS PR merged)
+1. [ ] Submit sitemap to Google Search Console
+2. [ ] Setup custom domain (cahya-agung.my.id)
 
 ### Medium Priority
-1. [ ] Add Google Analytics
-2. [ ] Add more projects to portfolio
-3. [ ] Add experience timeline
+1. [ ] Implement real contact form (Formspree/EmailJS/Backend)
+2. [ ] Add Google Analytics
+3. [ ] Add more projects to portfolio
+4. [ ] Add experience timeline
 
 ### Low Priority
 1. [ ] Replace google-site-verification dengan kode asli
@@ -160,9 +113,8 @@ Content seeding and bug fixes
 
 ## Running the Project
 ```bash
-npm run dev          # Development server (webpack)
+npm run dev          # Development server
 npm run studio       # Sanity CMS Studio
-npm run seed         # Seed Sanity dataset (requires token)
 ```
 
 ---
@@ -171,7 +123,7 @@ npm run seed         # Seed Sanity dataset (requires token)
 ```
 src/
 ├── app/
-│   ├── layout.tsx         # Metadata, JSON-LD, fonts (suppressHydrationWarning)
+│   ├── layout.tsx         # Metadata, JSON-LD, fonts
 │   └── globals.css        # Global styles
 ├── components/
 │   ├── sections/
@@ -181,7 +133,7 @@ src/
 │   │   └── professional-contact.tsx
 │   ├── navbar.tsx
 │   └── theme-provider.tsx
-├── content/               # JSON fallback files (production data)
+├── content/               # JSON fallback files
 │   ├── hero.json
 │   ├── about.json
 │   ├── projects.json
@@ -198,15 +150,12 @@ src/
         ├── projects.ts
         ├── contact.ts
         └── index.ts
-scripts/
-└── seed-sanity.ts          # Sanity dataset seeder
 public/
 └── og-image.svg           # Social sharing image
 .kitchen/
-├── checkpoint-2026-04-26.md
-├── checkpoint-2026-05-01-CMS-setup.md
-├── checkpoint-2026-05-04.md
-└── last-checkpoint.md
+├── checkpoint-2026-04-26.md        # Old checkpoint
+├── checkpoint-2026-05-01-CMS-setup.md  # CMS setup checkpoint
+└── last-checkpoint.md              # Current checkpoint
 ```
 
 ---
@@ -220,21 +169,6 @@ public/
 3. **Environment Variables:** Gunakan `.env.local.example` sebagai template, jangan commit `.env.local`
 
 4. **Branching Strategy:** Feature branches + PR workflow keeps master clean and traceable
-
-5. **Turbopack Windows Issue:** Next.js 16 Turbopack dapat mengalami crash pada Windows (exit code 0xc0000142). Solusi: gunakan `--webpack` flag untuk development
-
-6. **Path Aliases:** `@/*` di tsconfig.json mengarah ke `./src/*`, jadi import yang benar adalah `@/content/...` bukan `@/src/content/...`
-
-7. **Hydration Mismatch:** Browser extensions dapat menambah attribute ke DOM yang menyebabkan hydration warning. `suppressHydrationWarning` pada element yang terpengaruh adalah solusi yang aman
-
----
-
-## Deployment Notes
-
-- **Vercel auto-deploy:** Setiap push ke master branch trigger auto-deploy ke Vercel
-- **Sanity env vars:** Set `NEXT_PUBLIC_SANITY_PROJECT_ID=5m93ylii` dan `NEXT_PUBLIC_SANITY_DATASET=production` di Vercel dashboard
-- **Fallback mode:** Jika Sanity fetch gagal, app akan menggunakan data dari JSON files
-- **Seed Sanity:** Setelah deployment, jalankan `npm run seed` jika ingin populate Sanity dataset
 
 ---
 

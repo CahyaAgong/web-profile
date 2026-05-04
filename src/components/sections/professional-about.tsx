@@ -14,18 +14,18 @@ import { useCMSContent } from "@/hooks/useCMSContent";
 import { getIcon } from "@/lib/utils/iconMap";
 
 const defaultAboutData: AboutContent = {
-  bio: "A passionate Middle to Senior Software Engineer with 6+ years of experience building scalable web applications. Specialized in crafting exceptional digital experiences using modern technologies.",
+  bio: "Hello! I'm Cahya Agung, a dedicated Software Engineer with a strong passion for building impactful digital products. With over 6 years of professional experience, I've worked across the entire software development lifecycle — from gathering requirements and designing architectures to writing clean, maintainable code and deploying scalable applications.\n\nMy expertise spans modern frontend frameworks like React and Next.js, backend technologies including Node.js and various databases, as well as DevOps practices with Docker and AWS. I thrive in collaborative environments and enjoy solving complex problems with elegant, efficient solutions. When I'm not coding, you'll find me exploring emerging technologies, contributing to open-source projects, or sharing knowledge with the developer community.",
   skills: [
-    { category: "Frontend", icon: "Code", items: ["React", "Next.js", "TypeScript", "Tailwind"] },
-    { category: "Backend", icon: "Database", items: ["Node.js", "PostgreSQL", "MongoDB", "GraphQL"] },
-    { category: "DevOps", icon: "Globe", items: ["Docker", "AWS", "CI/CD", "Linux"] },
-    { category: "Specialized", icon: "Cpu", items: ["System Design", "API Integration", "Performance"] },
+    { category: "Frontend", icon: "Code", items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"] },
+    { category: "Backend", icon: "Database", items: ["Node.js", "NestJS", "PostgreSQL", "MongoDB", "GraphQL"] },
+    { category: "DevOps & Cloud", icon: "Globe", items: ["Docker", "AWS", "CI/CD", "Linux", "Nginx"] },
+    { category: "Specialized", icon: "Cpu", items: ["System Design", "API Architecture", "Performance Optimization"] },
   ],
   stats: [
     { value: "6+", label: "Years Experience" },
-    { value: "20+", label: "Projects Delivered" },
-    { value: "10+", label: "Happy Clients" },
-    { value: "50+", label: "Coffee Cups" },
+    { value: "25+", label: "Projects Delivered" },
+    { value: "15+", label: "Happy Clients" },
+    { value: "100%", label: "Commitment" },
   ],
 };
 

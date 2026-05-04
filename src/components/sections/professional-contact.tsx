@@ -20,14 +20,14 @@ const defaultContactData: ContactContent = {
   location: "Indonesia",
   formPlaceholder: {
     name: "Your Name",
-    email: "Email",
-    message: "Tell me about your project...",
+    email: "your.email@example.com",
+    message: "Tell me about your project, ideas, or just say hello...",
   },
   socials: [
     { platform: "GitHub", icon: "Code2", url: "https://github.com/CahyaAgong" },
     { platform: "Email", icon: "Mail", url: "mailto:cahyaagong@gmail.com" },
-    { platform: "Discord", icon: "MessageSquare", url: "#" },
-    { platform: "Twitter", icon: "X", url: "#" },
+    { platform: "Discord", icon: "MessageSquare", url: "https://discord.com" },
+    { platform: "Twitter", icon: "X", url: "https://twitter.com/cahyaagung" },
   ],
 };
 

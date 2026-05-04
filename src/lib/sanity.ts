@@ -1,11 +1,11 @@
 import { createClient } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import type { HeroContent, AboutContent, ProjectsContent, ContactContent } from "../sanity/types";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import heroData from "@/src/content/hero.json";
-import aboutData from "@/src/content/about.json";
-import projectsData from "@/src/content/projects.json";
-import contactData from "@/src/content/contact.json";
+import heroData from "@/content/hero.json";
+import aboutData from "@/content/about.json";
+import projectsData from "@/content/projects.json";
+import contactData from "@/content/contact.json";
 
 const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "your-project-id",
@@ -14,7 +14,7 @@ const sanityClient = createClient({
   useCdn: true,
 });
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 export function urlFor(source: SanityImageSource) {
   return builder.image(source);
