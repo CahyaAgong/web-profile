@@ -1,7 +1,29 @@
 import { createClient } from "@sanity/client";
 import { createImageUrlBuilder } from "@sanity/image-url";
-import type { HeroContent, AboutContent, ProjectsContent, ContactContent } from "../sanity/types";
-import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import type {
+  HeroContent,
+  AboutContent,
+  ProjectsContent,
+  ContactContent,
+  SkillCategory,
+  Stat,
+  Project,
+  Social,
+  FormPlaceholder,
+} from "../sanity/types";
+
+export type {
+  HeroContent,
+  AboutContent,
+  ProjectsContent,
+  ContactContent,
+  SkillCategory,
+  Stat,
+  Project,
+  Social,
+  FormPlaceholder,
+};
+import type { SanityImageSource } from "@sanity/image-url";
 import heroData from "@/content/hero.json";
 import aboutData from "@/content/about.json";
 import projectsData from "@/content/projects.json";
@@ -27,15 +49,14 @@ const USE_SANITY = Boolean(
 
 async function fetchWithFallback<T>(
   sanityQuery: string,
-  fallbackData: T,
-  params?: Record<string, string>
+  fallbackData: T
 ): Promise<T> {
   if (!USE_SANITY) {
     return fallbackData;
   }
 
   try {
-    const data = await sanityClient.fetch<T>(sanityQuery, params);
+    const data = await sanityClient.fetch<T>(sanityQuery);
     return data || fallbackData;
   } catch (error) {
     console.warn(`[Sanity] Fetch failed for query, using fallback. Error:`, error);

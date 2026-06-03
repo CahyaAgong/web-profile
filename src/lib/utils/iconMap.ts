@@ -1,6 +1,8 @@
 import { Code, Database, Globe, Cpu, Mail, MessageSquare, Code2, X } from "lucide-react";
 
-export const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+type IconProps = { className?: string; style?: React.CSSProperties };
+
+export const iconMap: Record<string, React.ComponentType<IconProps>> = {
   Code,
   Database,
   Globe,
@@ -11,6 +13,6 @@ export const iconMap: Record<string, React.ComponentType<{ className?: string }>
   X,
 };
 
-export function getIcon(iconName: string, fallback: React.ComponentType<{ className?: string }> = Code) {
+export function getIcon(iconName: string, fallback: React.ComponentType<IconProps> = Code) {
   return iconMap[iconName] || fallback;
 }
